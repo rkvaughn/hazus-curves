@@ -71,6 +71,27 @@ CREATE TABLE IF NOT EXISTS assignment_rules (
     PRIMARY KEY (rule_id)
 );
 
+-- Which flood zones Hazus flags a curve as applicable to. IMPORTANT: Hazus only publishes zone flags for the curves it assigns by default -- 47 of 597 structure curves in Hazus 4.0. The remainder are alternates a Hazus user selects manually and carry no zone assignment in any published table. Absence from this table therefore means 'Hazus states no zone', NOT 'not applicable'.
+CREATE TABLE IF NOT EXISTS curve_zone_applicability (
+    curve_id VARCHAR NOT NULL,
+    flood_zone VARCHAR NOT NULL,
+    source_file VARCHAR NOT NULL,
+    source_table VARCHAR NOT NULL,
+    PRIMARY KEY (curve_id, flood_zone)
+);
+
+CREATE INDEX IF NOT EXISTS cza_zone ON curve_zone_applicability (flood_zone);
+
+-- Decomposes Hazus's geographic applicability cases into the territories each one covers. Hazus cases are SET-VALUED -- 'ContUS+Hawaii' applies in both CONUS and Hawaii -- so filtering by case equality silently excludes most applicable curves. Join through this table and match on territory instead.
+CREATE TABLE IF NOT EXISTS dim_geographic_case (
+    case_name VARCHAR NOT NULL,
+    territory VARCHAR NOT NULL,
+    case_description VARCHAR,
+    PRIMARY KEY (case_name, territory)
+);
+
+CREATE INDEX IF NOT EXISTS dgc_territory ON dim_geographic_case (territory);
+
 -- Hazus occupancy classes. Source values are space-padded; stripped on load.
 CREATE TABLE IF NOT EXISTS dim_occupancy (
     occupancy VARCHAR NOT NULL,

@@ -83,6 +83,12 @@
           <div class="notice" style="margin-top:.4rem;">
             These curves contain no state or county key. Selecting a zone
             filters by Hazus flood-zone type, not a geographic location.
+            <br><br>
+            Hazus records a zone only for the curves it assigns by default. The
+            rest of the library is alternates selected manually in Hazus, with no
+            zone published anywhere — so choosing a zone narrows results to the
+            zone-flagged subset. Leave this on <em>All</em> to search the full
+            library.
           </div>
         </div>
 
@@ -122,7 +128,10 @@
         </div>
 
         <div class="field">
-          <label for="hu-geographic-case">Geographic case</label>
+          <label for="hu-geographic-case">
+            Territory
+            <span class="hint">(applicability, not location)</span>
+          </label>
           <select id="hu-geographic-case">
             <option value="">-- All --</option>
           </select>

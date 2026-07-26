@@ -317,18 +317,23 @@ async function populateHurricaneFilters() {
     terrSel.appendChild(opt);
   }
 
-  // Geographic case
+  // Territory, not raw Hazus case.
+  //
+  // Hazus's geographic cases are SET-VALUED: "ContUS+Hawaii" means "Used in Continental
+  // and Hawaii". Offering the raw cases and matching them with = silently excluded most
+  // applicable curves -- picking "Hawaii" returned 14,400 of the 179,820 curves that
+  // actually apply there. The selector now offers territories and resolves them to the
+  // set of cases covering that territory via dim_geographic_case.
   const geoResult = await conn.query(
-    `SELECT DISTINCT value
-     FROM read_parquet('${DATA_BASE}curve_attributes_hu.parquet')
-     WHERE key = 'geographic_case' AND value IS NOT NULL
-     ORDER BY value`
+    `SELECT territory, count(*) AS n_cases
+     FROM read_parquet('${DATA_BASE}dim_geographic_case.parquet')
+     GROUP BY territory ORDER BY territory`
   );
   const geoSel = el("hu-geographic-case");
   for (const row of toRows(geoResult)) {
     const opt = document.createElement("option");
-    opt.value = row.value;
-    opt.textContent = row.value;
+    opt.value = row.territory;
+    opt.textContent = row.territory;
     geoSel.appendChild(opt);
   }
 
@@ -415,9 +420,21 @@ async function queryFlood() {
   if (agency)     whereParts.push(`c.source_agency = '${esc(agency)}'`);
 
   // Flood zone: filter via assignment_rules (zone is a rule attribute, not on curves directly)
+  // Filter on curve_zone_applicability, not assignment_rules.
+  //
+  // assignment_rules records which curve a building combination selects *by default*.
+  // Using it as a zone filter narrowed the library to those defaults -- 101 of 3,046
+  // flood curves -- and, because it only held Hazus 6.1 rows, silently returned zero
+  // Hazus 4.0 curves for any zone.
+  //
+  // curve_zone_applicability records which zones Hazus flags a curve as usable in.
+  // Note this is still a subset of the library: Hazus publishes zone flags only for
+  // the curves it assigns, and the remainder are alternates chosen manually with no
+  // zone recorded anywhere. The UI says so rather than implying the filter is complete.
   const zoneJoin = zone
     ? `INNER JOIN (
-         SELECT DISTINCT curve_id FROM read_parquet('${DATA_BASE}assignment_rules.parquet')
+         SELECT DISTINCT curve_id
+         FROM read_parquet('${DATA_BASE}curve_zone_applicability.parquet')
          WHERE flood_zone = '${esc(zone)}'
        ) _ar ON _ar.curve_id = c.curve_id`
     : "";
@@ -516,10 +533,26 @@ async function queryHurricane() {
   if (buildingType) whereParts.push(`c.building_type = '${esc(buildingType)}'`);
   if (damageType)   whereParts.push(`c.damage_type = '${esc(damageType)}'`);
 
-  // Attribute conditions (terrain, geographic_case, and dynamic attrs) as EXISTS subqueries
+  // Territory is resolved through dim_geographic_case rather than compared directly.
+  // Matching the raw case with = would exclude every curve whose case merely *contains*
+  // the territory -- e.g. a "Hawaii" selection would drop all 165,420 ContUS+Hawaii
+  // curves, which do apply in Hawaii.
+  if (geoCase) {
+    whereParts.push(
+      `EXISTS (
+         SELECT 1 FROM read_parquet('${DATA_BASE}curve_attributes_hu.parquet') _g
+         JOIN read_parquet('${DATA_BASE}dim_geographic_case.parquet') _t
+           ON _t.case_name = _g.value
+         WHERE _g.curve_id = c.curve_id
+           AND _g.key = 'geographic_case'
+           AND _t.territory = '${esc(geoCase)}'
+       )`
+    );
+  }
+
+  // Attribute conditions (terrain and the dynamic characteristic filters).
   const attrConditions = [];
-  if (terrain)  attrConditions.push({ key: "terrain",         value: terrain });
-  if (geoCase)  attrConditions.push({ key: "geographic_case", value: geoCase });
+  if (terrain) attrConditions.push({ key: "terrain", value: terrain });
   for (const af of attrFilters) attrConditions.push(af);
 
   for (const { key, value } of attrConditions) {

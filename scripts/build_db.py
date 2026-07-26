@@ -15,6 +15,7 @@ import sqlite3
 import sys
 from pathlib import Path
 
+import openpyxl
 import pandas as pd
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
@@ -24,6 +25,7 @@ REPO = Path(__file__).resolve().parent.parent
 RAW, DATA, DIST, SQL = REPO / "raw", REPO / "data", REPO / "dist", REPO / "sql"
 
 WORKBOOK_61 = "HazusFloodDamageFunctions_Hazus61.xlsx"
+WORKBOOK_HU = "HazusWindDamFunctions_Hazus61.xlsx"
 
 # What x and y mean, per peril and damage type. Sourced from the Hazus technical
 # manuals and the workbook's own huDamLossFunDescription sheet. Consumers should read
@@ -60,15 +62,57 @@ CURVE_KIND = [
 ]
 
 
-def build_assignment_rules() -> pd.DataFrame:
-    """Hazus's own default curve selection, from the 6.1 workbook.
+# Hazus 7.0 Release Notes section 2.2, "Depth-Limited Coastal Zone Assignment",
+# verbatim: "Hazus automatically assigns Coastal V Zone DDFs when water depths are 6
+# feet or greater, and Coastal A Zone DDFs for water depths between 3 and 6 feet. When
+# water depths are 3 feet or less, the software will assign A Zone DDFs, also referred
+# to as the Riverine DDFs in Hazus." This supersedes the flat default-by-zone assignment
+# recorded in the rules below, which is what Hazus 6.1 and earlier used.
+COASTAL_DEPTH_RULE_7_0 = (
+    "Superseded in Hazus 7.0 by the depth-limited coastal rule: Coastal V DDFs at "
+    "depths >= 6 ft, Coastal A DDFs between 3 and 6 ft, Riverine (A-Zone) DDFs below "
+    "3 ft. Source: Hazus 7.0 Release Notes 2.2. The rule below is the Hazus 6.1 and "
+    "earlier behaviour."
+)
 
-    SOoccupId_Occ_Xref gives occupancy x stories x basement; the *Final tables give the
-    curve each combination selects and which flood zones it applies to.
+# 4.0 assignment lookups published by FEMA in the FAST repository. Each row maps an
+# occupancy/stories/basement combination to a DDF_ID and carries per-zone applicability
+# flags. These were fetched and checksummed from the start but never parsed, which is
+# why no Hazus 4.0 curve was reachable through the zone filter.
+LUT_4_0 = [
+    ("structure", "Building_DDF_Riverine_LUT_Hazus4p0.csv", "Riverine"),
+    ("structure", "Building_DDF_CoastalA_LUT_Hazus4p0.csv", "CoastalA"),
+    ("structure", "Building_DDF_CoastalV_LUT_Hazus4p0.csv", "CoastalV"),
+    ("contents",  "Content_DDF_Riverine_LUT_Hazus4p0.csv",  "Riverine"),
+    ("contents",  "Content_DDF_CoastalA_LUT_Hazus4p0.csv",  "CoastalA"),
+    ("contents",  "Content_DDF_CoastalV_LUT_Hazus4p0.csv",  "CoastalV"),
+    ("inventory", "Inventory_DDF_LUT_Hazus4p0.csv",         "Riverine"),
+]
+
+ZONE_FLAGS = (("Riverine", "HazardRiverine"), ("CoastalA", "HazardCA"),
+              ("CoastalV", "HazardCV"))
+
+
+def _clean(v):
+    if v is None or (isinstance(v, float) and pd.isna(v)):
+        return None
+    s = str(v).strip()
+    return s or None
+
+
+def build_assignment_rules() -> pd.DataFrame:
+    """Hazus's own default curve selection, for BOTH published vintages.
+
+    6.1 comes from the workbook's *Final tables joined to SOoccupId_Occ_Xref.
+    4.0 comes from FEMA's published DDF lookup tables in the FAST repository.
+
+    Covering 4.0 matters: the website filters flood zone by joining this table, so while
+    it held 6.1 rows only, selecting any zone silently returned zero Hazus 4.0 curves.
     """
+    out = []
+
     xl = pd.ExcelFile(RAW / WORKBOOK_61)
     xref = xl.parse("SOoccupId_Occ_Xref")
-    out = []
     for damage_type, sheet, idcol in [
         ("structure", "flBldgStructDmgFinal", "BldgDmgFnId"),
         ("contents",  "flBldgContDmgFinal",   "ContDmgFnId"),
@@ -83,22 +127,158 @@ def build_assignment_rules() -> pd.DataFrame:
                 fn = r[idcol]
                 if pd.isna(fn):
                     continue
-                fn = str(int(fn))
                 out.append({
                     "rule_id": f"fl-6.1-{damage_type}-{r['SOccupId']}-{zone}",
                     "peril": "fl",
                     "hazus_version": "6.1",
                     "damage_type": damage_type,
-                    "occupancy": str(r.get("Occupancy") or "").strip() or None,
+                    "occupancy": _clean(r.get("Occupancy")),
                     "flood_zone": zone,
-                    "stories": str(r.get("NumStories") or "").strip() or None,
-                    "basement": str(r.get("Basement") or "").strip() or None,
-                    "curve_id": f"fl-6.1-{damage_type}-{fn}",
+                    "stories": _clean(r.get("NumStories")),
+                    "basement": _clean(r.get("Basement")),
+                    "curve_id": f"fl-6.1-{damage_type}-{int(fn)}",
                     "source_file": WORKBOOK_61,
                     "source_table": sheet,
-                    "notes": None,
+                    "notes": (COASTAL_DEPTH_RULE_7_0
+                              if zone in ("CoastalA", "CoastalV") else None),
                 })
+
+    for damage_type, filename, zone in LUT_4_0:
+        path = RAW / filename
+        if not path.exists():
+            print(f"  warning: {filename} missing; Hazus 4.0 {damage_type}/{zone} "
+                  f"assignment rules will be absent")
+            continue
+        df = pd.read_csv(path)
+        for i, r in df.iterrows():
+            fn = r.get("DDF_ID")
+            if pd.isna(fn):
+                continue
+            occ = _clean(r.get("Occupancy"))
+            stories = _clean(r.get("Stories"))
+            basement = _clean(r.get("Basement"))
+            out.append({
+                "rule_id": f"fl-4.0-{damage_type}-{zone}-{i}",
+                "peril": "fl",
+                "hazus_version": "4.0",
+                "damage_type": damage_type,
+                "occupancy": occ,
+                "flood_zone": zone,
+                "stories": stories,
+                "basement": basement,
+                "curve_id": f"fl-4.0-{damage_type}-{int(fn)}",
+                "source_file": filename,
+                "source_table": filename.rsplit(".", 1)[0],
+                "notes": (COASTAL_DEPTH_RULE_7_0
+                          if zone in ("CoastalA", "CoastalV") else None),
+            })
+
     return pd.DataFrame(out).drop_duplicates("rule_id")
+
+
+def build_zone_applicability(curves: pd.DataFrame) -> pd.DataFrame:
+    """Which flood zones Hazus flags each curve as applicable to.
+
+    Distinct from assignment_rules: a rule says "this combination selects that curve by
+    default in this zone", whereas this says "Hazus marks this curve usable in this
+    zone". A single curve is often flagged for more than one zone.
+
+    Hazus only publishes zone flags for the curves it assigns; the rest of the library
+    is alternates a user picks by hand, and no published table gives them a zone. So
+    absence here means "Hazus states no zone", not "not applicable" -- callers must not
+    read a missing row as an exclusion.
+    """
+    rows = []
+
+    for damage_type, filename, _default_zone in LUT_4_0:
+        path = RAW / filename
+        if not path.exists():
+            continue
+        df = pd.read_csv(path)
+        for _, r in df.iterrows():
+            fn = r.get("DDF_ID")
+            if pd.isna(fn):
+                continue
+            for zone, col in ZONE_FLAGS:
+                if col in df.columns and r.get(col) == 1:
+                    rows.append({
+                        "curve_id": f"fl-4.0-{damage_type}-{int(fn)}",
+                        "flood_zone": zone,
+                        "source_file": filename,
+                        "source_table": filename.rsplit(".", 1)[0],
+                    })
+
+    xl = pd.ExcelFile(RAW / WORKBOOK_61)
+    for damage_type, sheet, idcol in [
+        ("structure", "flBldgStructDmgFinal", "BldgDmgFnId"),
+        ("contents",  "flBldgContDmgFinal",   "ContDmgFnId"),
+        ("inventory", "flBldgInvDmgFinal",    "InvDmgFnId"),
+    ]:
+        df = xl.parse(sheet)
+        for _, r in df.iterrows():
+            fn = r.get(idcol)
+            if pd.isna(fn):
+                continue
+            for zone, col in (("Riverine", "HazardR"), ("CoastalA", "HazardCA"),
+                              ("CoastalV", "HazardCV")):
+                if r.get(col):
+                    rows.append({
+                        "curve_id": f"fl-6.1-{damage_type}-{int(fn)}",
+                        "flood_zone": zone,
+                        "source_file": WORKBOOK_61,
+                        "source_table": sheet,
+                    })
+
+    out = pd.DataFrame(rows).drop_duplicates(["curve_id", "flood_zone"])
+    known = set(curves["curve_id"])
+    dangling = sorted(set(out["curve_id"]) - known)
+    if dangling:
+        raise ValueError(
+            f"zone applicability references {len(dangling)} curve_id(s) that do not "
+            f"exist, e.g. {dangling[:5]}"
+        )
+    return out
+
+
+def build_geographic_cases() -> pd.DataFrame:
+    """Decompose Hazus geographic applicability cases into territories.
+
+    Hazus's CaseID table is set-valued: 'ContUS+Hawaii' means "Used in Continental and
+    Hawaii". Filtering by case equality therefore excludes most curves that actually
+    apply in a territory -- selecting Hawaii returned 14,400 of 179,820 applicable
+    curves before this table existed.
+
+    The decomposition is read from Hazus's own CaseDescription strings, not inferred.
+    """
+    wb = openpyxl.load_workbook(RAW / WORKBOOK_HU, read_only=True)
+    ws = wb["CaseID"]
+    it = ws.iter_rows(values_only=True)
+    header = [str(h).strip() for h in next(it)]
+    rows = []
+    for raw in it:
+        rec = dict(zip(header, raw))
+        name = _clean(rec.get("CaseName"))
+        desc = _clean(rec.get("CaseDescription")) or ""
+        if not name:
+            continue
+        low = desc.lower()
+        territories = []
+        if "continental" in low:
+            territories.append("CONUS")
+        if "hawaii" in low:
+            territories.append("Hawaii")
+        if "caribbean" in low:
+            territories.append("Caribbean")
+        if not territories:
+            raise ValueError(
+                f"CaseDescription {desc!r} for case {name!r} names no recognised "
+                f"territory; refusing to guess its coverage"
+            )
+        for t in territories:
+            rows.append({"case_name": name, "territory": t,
+                         "case_description": desc})
+    wb.close()
+    return pd.DataFrame(rows)
 
 
 def provenance_table() -> pd.DataFrame:
@@ -141,14 +321,17 @@ def main() -> int:
         attrs.append(pd.read_parquet(DIST / "curve_attributes_hu.parquet"))
         points.append(pd.read_parquet(DIST / "curve_points_hu.parquet"))
 
+    all_curves = pd.concat(curves, ignore_index=True)
     tables = {
-        "curves": pd.concat(curves, ignore_index=True),
+        "curves": all_curves,
         "curve_points": pd.concat(points, ignore_index=True),
         "curve_attributes": pd.concat(attrs, ignore_index=True),
         "curve_kind": pd.DataFrame(CURVE_KIND, columns=[
             "peril", "damage_type", "x_name", "x_units", "y_name", "y_units",
             "interpolation", "notes"]),
         "assignment_rules": build_assignment_rules(),
+        "curve_zone_applicability": build_zone_applicability(all_curves),
+        "dim_geographic_case": build_geographic_cases(),
         "dim_occupancy": pd.read_csv(DATA / "dim_occupancy.csv"),
         "dim_building_type": (pd.read_csv(DATA / "dim_building_type.csv")
                               if (DATA / "dim_building_type.csv").exists()

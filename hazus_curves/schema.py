@@ -153,6 +153,38 @@ ASSIGNMENT_RULES = Table(
         "that rule is recorded here, not as curve data.",
 )
 
+CURVE_ZONE_APPLICABILITY = Table(
+    "curve_zone_applicability",
+    [
+        Column("curve_id", TEXT, False),
+        Column("flood_zone", TEXT, False, "Riverine | CoastalA | CoastalV."),
+        Column("source_file", TEXT, False),
+        Column("source_table", TEXT, False),
+    ],
+    pk=["curve_id", "flood_zone"],
+    doc="Which flood zones Hazus flags a curve as applicable to. IMPORTANT: Hazus "
+        "only publishes zone flags for the curves it assigns by default -- 47 of 597 "
+        "structure curves in Hazus 4.0. The remainder are alternates a Hazus user "
+        "selects manually and carry no zone assignment in any published table. Absence "
+        "from this table therefore means 'Hazus states no zone', NOT 'not applicable'.",
+    indexes=(("cza_zone", ["flood_zone"]),),
+)
+
+DIM_GEOGRAPHIC_CASE = Table(
+    "dim_geographic_case",
+    [
+        Column("case_name", TEXT, False, "Hazus CaseName, e.g. ContUS+Hawaii."),
+        Column("territory", TEXT, False, "CONUS | Hawaii | Caribbean."),
+        Column("case_description", TEXT, True, "Hazus CaseDescription, verbatim."),
+    ],
+    pk=["case_name", "territory"],
+    doc="Decomposes Hazus's geographic applicability cases into the territories each "
+        "one covers. Hazus cases are SET-VALUED -- 'ContUS+Hawaii' applies in both "
+        "CONUS and Hawaii -- so filtering by case equality silently excludes most "
+        "applicable curves. Join through this table and match on territory instead.",
+    indexes=(("dgc_territory", ["territory"]),),
+)
+
 DIM_OCCUPANCY = Table(
     "dim_occupancy",
     [
@@ -192,7 +224,8 @@ PROVENANCE = Table(
 
 TABLES = [
     CURVES, CURVE_POINTS, CURVE_ATTRIBUTES, CURVE_KIND,
-    ASSIGNMENT_RULES, DIM_OCCUPANCY, DIM_BUILDING_TYPE, PROVENANCE,
+    ASSIGNMENT_RULES, CURVE_ZONE_APPLICABILITY, DIM_GEOGRAPHIC_CASE,
+    DIM_OCCUPANCY, DIM_BUILDING_TYPE, PROVENANCE,
 ]
 
 

@@ -198,3 +198,48 @@ Checks that came back clean:
 Findings 1–3 share a failure mode worth stating plainly: none of them throws an error.
 Each returns a plausible curve computed over the wrong population, and finding 1 wraps it
 in a dispersion band that makes the truncated result look well-characterised.
+
+---
+
+## Remediation (completed)
+
+All five findings are fixed. Regression coverage is in
+`tests/test_geographic_mapping.py` (15 tests), which pins absolute counts rather than
+"returns something", because every one of these bugs returned something.
+
+**1. Territory membership replaces case equality.** New `dim_geographic_case` table
+decomposes each Hazus case into the territories it covers, read from Hazus's own
+`CaseDescription` strings. The selector now offers CONUS / Hawaii / Caribbean and matches
+any case containing that territory.
+
+| Territory | Before (equality) | After (membership) | Recovered |
+|---|---:|---:|---:|
+| Hawaii | 1,600 | 19,980 | +18,380 |
+| CONUS | 4,800 | 28,380 | +23,580 |
+| Caribbean | n/a | 5,200 | — |
+
+*(`damage_severe` curves; verified identical in SQL and in the browser.)*
+
+**2. Hazus 4.0 assignment rules now exist.** The six FEMA-published 4.0 lookup tables are
+parsed. `assignment_rules` grew from 1,338 rows (6.1 only) to 2,040 covering both
+vintages. Zone + version 4.0 returns 36 curves for Riverine and 38 for Coastal V, where
+it previously returned zero.
+
+**3. Zone filtering moved to a real applicability index.** New
+`curve_zone_applicability` table records which zones Hazus flags a curve as usable in,
+built from the multi-zone flags in both the 4.0 LUTs and the 6.1 `*Final` tables. The
+site filters on this instead of on default assignments.
+
+An important limit, now stated in the UI rather than hidden: **Hazus publishes zone flags
+only for the curves it assigns.** The rest of the library is alternates a Hazus user
+selects manually, with no zone recorded in any published table. A complete applicability
+index is therefore not derivable from the available data. Selecting a zone still narrows
+the library — it just does so explicitly, and leaving the control on *All* searches all
+3,046 flood curves.
+
+**4. The Hazus 7.0 coastal rule is in the data.** 1,148 Coastal A and Coastal V rules
+carry a `notes` value quoting the depth-limited rule (V ≥ 6 ft, A 3–6 ft, riverine
+< 3 ft) and citing Hazus 7.0 Release Notes §2.2. Riverine rules are deliberately left
+unannotated, since the change does not apply to them, and a test asserts that.
+
+**5. The unused FEMA LUTs are now the source for findings 2 and 3.**
