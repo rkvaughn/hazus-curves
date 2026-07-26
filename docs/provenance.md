@@ -95,6 +95,32 @@ are easy to write plausibly from general knowledge and impossible to audit after
 the pipeline refuses to write a description it cannot cite: if a code has no entry in the
 manual, the field stays empty and the site falls back to showing the bare code.
 
+### Building characteristic labels in the web tool
+
+Most Hazus building characteristic values are already plain English ("Wood Truss",
+"Toe-nail", "Low"/"Medium"/"High") and are shown verbatim. A few are engineering
+shorthand, and the web tool shows a readable label for those:
+
+| Hazus value | Shown as | Source |
+|---|---|---|
+| `6d @ 6"/12"` | Six-penny nails — 6" edge / 12" field spacing | HU TM 7.0 p. 553 |
+| `8d @ 6"/12"` | Eight-penny nails — 6" edge / 12" field spacing | same notation |
+| `6d/8d Mix @ 6"/6"` | Mixed six/eight-penny nails — 6" edge / 6" field spacing | same notation |
+| `8D @ 6"/6"` | Eight-penny nails — 6" edge / 6" field spacing | HU TM 7.0 p. 553 |
+| `OWSJ` | Open-web steel joist (OWSJ) | HU TM 7.0 acronym list |
+| `SFBC 1994` | South Florida Building Code 1994 (SFBC) | HU TM 7.0 |
+| `Res./Comm.` | Residential / commercial | — |
+
+The nailing notation is spelled out by FEMA directly: *"six penny roof panel nailing at
+6-inch spacing on the edges and 12-inch spacing in the field ('6d @ 6"/12" roof deck
+attachment')"*. Two of the four values are quoted from that sentence and its companion
+for `8d @ 6"/6"`; the other two apply the same stated `<size> @ <edge>/<field>` grammar.
+
+These labels are display-only. The underlying value is never rewritten — the query still
+filters on the exact stored string, and each option carries a tooltip showing it. Note
+that Hazus is internally inconsistent about case here (`8D @ 6"/6"` in `bcName` versus
+`8d` in `bcDescription`), so the lookup key must match the data byte for byte.
+
 One wrinkle worth recording: Table C-2 immediately follows and reuses the same
 `NN_SBT` row labels for per-region statistics, so a naive parse picks up rows like
 `01_WSF1 01-Roof Shape Hip 13 26.9 34 ...`. The extractor stops at the first row whose

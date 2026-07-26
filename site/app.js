@@ -29,6 +29,50 @@ const DATA_BASE = new URL("data/", window.location.href).href;
 
 // Hurricane attribute keys to surface as individual filter dropdowns.
 // All keys are loaded dynamically; this list controls display ordering.
+// ─────────────────────────────────────────────────────────────────────────────
+// Readable labels for Hazus's terser building-characteristic values.
+//
+// Every expansion below is quoted or directly derived from the Hazus Hurricane
+// Model Technical Manual 7.0 -- none is invented. Most Hazus values are already
+// plain ("Wood Truss", "Toe-nail", "Low"/"Medium"/"High") and are left alone.
+//
+// Roof deck attachment uses a "<nail size> @ <edge>/<field>" shorthand that the
+// manual spells out on p. 553: "six penny roof panel nailing at 6-inch spacing on
+// the edges and 12-inch spacing in the field ('6d @ 6"/12" roof deck attachment')"
+// and "eight penny roof panel nailing at 6-inch spacing on the edges and 6-inch
+// spacing in the field ('8d @ 6"/6"')". The other two entries apply that same
+// stated grammar.
+//
+// Keys are "<CharType>|<value>", values exactly as they appear in the data -- note
+// Hazus itself is inconsistent about case ('8D @ 6"/6"' in bcName vs '8d' in
+// bcDescription), so the key must match the data byte for byte.
+const ATTR_VALUE_LABELS = {
+  // Roof Deck Attachment -- TM 7.0 p.553
+  'Roof Deck Attachment|6d @ 6"/12"':
+    'Six-penny nails — 6" edge / 12" field spacing',
+  'Roof Deck Attachment|8d @ 6"/12"':
+    'Eight-penny nails — 6" edge / 12" field spacing',
+  'Roof Deck Attachment|6d/8d Mix @ 6"/6"':
+    'Mixed six/eight-penny nails — 6" edge / 6" field spacing',
+  'Roof Deck Attachment|8D @ 6"/6"':
+    'Eight-penny nails — 6" edge / 6" field spacing',
+
+  // TM 7.0 acronym list: "OWSJ  Open Web Steel Joists"
+  "Roof Frame Type|OWSJ": "Open-web steel joist (OWSJ)",
+
+  // TM 7.0: "the South Florida Building Code (SFBC)"
+  "Garage, Houses with Shutters|SFBC 1994":
+    "South Florida Building Code 1994 (SFBC)",
+
+  // Wind debris exposure source
+  "Wind Debris|Res./Comm.": "Residential / commercial",
+};
+
+/** Readable label for an attribute value, falling back to the raw value. */
+function attrValueLabel(key, value) {
+  return ATTR_VALUE_LABELS[`${key}|${value}`] || value;
+}
+
 const HU_ATTR_DISPLAY_ORDER = [
   "Roof Shape",
   "Shutters",
@@ -341,8 +385,9 @@ async function populateHurricaneFilters() {
 
     for (const v of values) {
       const opt = document.createElement("option");
-      opt.value = v;
-      opt.textContent = v;
+      opt.value = v;                       // query value stays exactly as stored
+      opt.textContent = attrValueLabel(key, v);
+      if (opt.textContent !== v) opt.title = `Hazus value: ${v}`;
       sel.appendChild(opt);
     }
 
@@ -991,6 +1036,47 @@ function resetResults() {
   lastResult = null;
 }
 
+// Opening filters. The point is that the page shows a real curve immediately
+// instead of an empty chart, so a first-time visitor sees what the tool does
+// before working out which of 39 building types to pick.
+//
+// Chosen because they are the most common cases in the data and each returns a
+// small, fast, non-degenerate result: RES1 is the single-family dwelling class
+// most flood work starts from, and WSF1 is its hurricane equivalent. Neither
+// default is defect-flagged, so nobody is silently handed a known-bad curve.
+const DEFAULT_FILTERS = {
+  fl: {
+    "fl-occupancy": "RES1",
+    "fl-damage-type": "structure",
+    "fl-version": "6.1",
+    "fl-zone": "Riverine",
+  },
+  hu: {
+    "hu-building-type": "WSF1",
+    "hu-damage-type": "damage_severe",
+    "hu-terrain": "Open",
+  },
+};
+
+/** Select a value only if the option actually exists, so a data change can't
+ *  leave a select silently stuck on a value that no longer matches anything. */
+function applyDefaults(peril) {
+  let applied = 0;
+  for (const [id, value] of Object.entries(DEFAULT_FILTERS[peril] || {})) {
+    const sel = document.getElementById(id);
+    if (!sel) continue;
+    if ([...sel.options].some(o => o.value === value)) {
+      sel.value = value;
+      applied++;
+    } else {
+      console.warn(`default ${id}="${value}" not present in the data; left as All`);
+    }
+  }
+  return applied;
+}
+
+const autoQueried = { fl: false, hu: false };
+
 function switchPeril(peril) {
   currentPeril = peril;
   el("tab-fl").classList.toggle("active", peril === "fl");
@@ -998,6 +1084,14 @@ function switchPeril(peril) {
   el("flood-filters").classList.toggle("hidden", peril !== "fl");
   el("hurricane-filters").classList.toggle("hidden", peril !== "hu");
   resetResults();
+
+  // Run once per peril on first visit. After that the user is driving, and
+  // re-running on every tab switch would throw away their selections.
+  if (!autoQueried[peril]) {
+    autoQueried[peril] = true;
+    applyDefaults(peril);
+    runQuery();
+  }
 }
 
 el("tab-fl").addEventListener("click", () => switchPeril("fl"));
@@ -1033,7 +1127,11 @@ async function boot() {
   }
 
   hideLoading();
-  setStatus('Ready. Select filters and press "Search curves".');
+
+  // Land on a real curve rather than an empty chart.
+  autoQueried.fl = true;
+  applyDefaults("fl");
+  await runQuery();
 }
 
 boot();
