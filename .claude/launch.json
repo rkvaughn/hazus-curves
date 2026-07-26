@@ -3,8 +3,8 @@
   "configurations": [
     {
       "name": "site",
-      "runtimeExecutable": "python3",
-      "runtimeArgs": ["-m", "http.server", "8931", "--directory", "site"],
+      "runtimeExecutable": ".venv/bin/python",
+      "runtimeArgs": ["scripts/serve_site.py", "--port", "8931"],
       "port": 8931
     }
   ]

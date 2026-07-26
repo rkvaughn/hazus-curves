@@ -90,7 +90,22 @@ these classes produces a meaningless number; the website refuses to do it.
 anywhere in this pipeline, and a test asserts no published occupancy value has leading or
 trailing whitespace.
 
-## 6. Hazus 6.1's own release-note count does not match the extract
+## 6. Parquet files are sorted by `curve_id` on purpose
+
+`curve_points` and `curve_attributes` are written sorted by `curve_id` so that each
+Parquet row group covers a disjoint, narrow key range.
+
+This is not cosmetic. Rows come out of the source in an order that interleaves all nine
+hurricane loss classes, which left every row group spanning almost the entire `curve_id`
+range. Row-group statistics then exclude nothing, so a reader looking for a handful of
+curves has to read the whole file — 57 MB over HTTP range requests, for a query
+returning 128 curves. Sorting cut a hurricane query in the web tool from "never
+finishes" to under 8 seconds.
+
+If you regenerate these files yourself, keep the sort. It is a physical reordering only:
+same rows, same values, and the build asserts the row count is unchanged.
+
+## 7. Hazus 6.1's own release-note count does not match the extract
 
 FEMA's Hazus 6.1 release notes state that *"Almost 300 new structure and 400 new content
 damage functions were added."* Measured against this extract:

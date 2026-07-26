@@ -67,6 +67,39 @@ DEFECT_NOTE = (
 BATCH = 200_000  # points per Parquet row group write
 
 
+def sort_by_curve_id(path):
+    """Rewrite a Parquet file sorted by curve_id so row groups can be pruned.
+
+    Rows are produced in source order, which interleaves all nine loss classes. That
+    leaves every row group spanning nearly the whole curve_id range, so its min/max
+    statistics exclude nothing and any curve lookup has to read the entire file. Over
+    HTTP range requests -- which is how the website reads these -- that means pulling
+    all 57 MB to answer a query for 128 curves.
+
+    Sorting makes each row group a disjoint curve_id range, so a reader fetches only
+    the few row groups it needs. Purely a physical reordering: same rows, same values.
+    """
+    import duckdb
+
+    tmp = path.with_suffix(".sorted.parquet")
+    con = duckdb.connect()
+    before = con.execute(
+        f"SELECT count(*) FROM read_parquet('{path}')").fetchone()[0]
+    con.execute(f"""
+        COPY (SELECT * FROM read_parquet('{path}') ORDER BY curve_id)
+        TO '{tmp}' (FORMAT PARQUET, COMPRESSION ZSTD, ROW_GROUP_SIZE 100000)
+    """)
+    after = con.execute(
+        f"SELECT count(*) FROM read_parquet('{tmp}')").fetchone()[0]
+    con.close()
+    if before != after:
+        tmp.unlink(missing_ok=True)
+        raise ValueError(
+            f"{path.name}: sort changed the row count ({before} -> {after})")
+    tmp.replace(path)
+    print(f"  sorted {path.name} by curve_id ({after:,} rows) for row-group pruning")
+
+
 def sheet_rows(wb, name):
     ws = wb[name]
     it = ws.iter_rows(values_only=True)
@@ -239,6 +272,9 @@ def build():
     cdf.to_parquet(DIST / "curves_hu.parquet", index=False, compression="zstd")
     adf.to_parquet(DIST / "curve_attributes_hu.parquet", index=False,
                    compression="zstd")
+
+    sort_by_curve_id(DIST / "curve_points_hu.parquet")
+    sort_by_curve_id(DIST / "curve_attributes_hu.parquet")
 
     # Codes only. The wind workbook has no natural-language names for building types
     # -- every sheet was checked. scripts/extract_building_types.py fills the

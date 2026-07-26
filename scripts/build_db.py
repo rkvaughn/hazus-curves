@@ -178,6 +178,13 @@ def main() -> int:
         for c in cols:
             if c not in df.columns:
                 df[c] = None
+        # Sort the big per-curve tables so Parquet row groups hold disjoint curve_id
+        # ranges. Without this every row group spans the whole key range, no row group
+        # can be pruned, and the website has to fetch the entire file over HTTP range
+        # requests to answer a query for a handful of curves.
+        if t.name in ("curve_points", "curve_attributes"):
+            sort_cols = ["curve_id"] + (["x"] if "x" in df.columns else [])
+            df = df.sort_values(sort_cols, kind="stable")
         df[cols].to_sql(t.name, con, if_exists="append", index=False)
         df[cols].to_parquet(DIST / f"{t.name}.parquet", index=False,
                             compression="zstd")
