@@ -13,3 +13,4 @@ raw/*
 dist/
 
 .DS_Store
+site/data/

@@ -249,8 +249,12 @@ select:focus, input:focus {
   background: var(--surface);
   margin-bottom: .75rem;
 }
+/* Chart.js is responsive with maintainAspectRatio:false, so the canvas fills its
+   positioned parent rather than carrying intrinsic dimensions. */
 #chart-wrap canvas {
   display: block;
+  width: 100% !important;
+  height: 100% !important;
 }
 
 #chart-placeholder {

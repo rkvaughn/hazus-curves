@@ -11,13 +11,21 @@
  * window.Chart is available synchronously.
  */
 
-import * as duckdb from "https://cdn.jsdelivr.net/npm/@duckdb/duckdb-wasm@1.29.0/dist/duckdb-browser.mjs";
+// Use jsDelivr's "+esm" build, not dist/duckdb-browser.mjs. The latter contains a bare
+// `import ... from "apache-arrow"`, which a browser cannot resolve without an import
+// map, so it fails at load with "Failed to resolve module specifier". The +esm build
+// has its dependency specifiers rewritten to absolute URLs.
+import * as duckdb from "https://cdn.jsdelivr.net/npm/@duckdb/duckdb-wasm@1.29.0/+esm";
 
 // ─────────────────────────────────────────────────────────────────────────────
 // Constants
 // ─────────────────────────────────────────────────────────────────────────────
 
-const DATA_BASE = "./data/";
+// Must be an ABSOLUTE URL. DuckDB-WASM's httpfs resolves paths itself and does not
+// interpret them relative to the page, so "./data/" fails with "No files found that
+// match the pattern". Resolving against location.href keeps this working under a
+// GitHub Pages project subpath as well as at a domain root.
+const DATA_BASE = new URL("data/", window.location.href).href;
 
 // Hurricane attribute keys to surface as individual filter dropdowns.
 // All keys are loaded dynamically; this list controls display ordering.
@@ -529,7 +537,25 @@ async function queryHurricane() {
   return { nCurves, curves, points, averaged: nCurves > 1, meta: hurricaneMeta(buildingType, damageType, terrain, geoCase, attrFilters) };
 }
 
+// The nine hurricane loss classes use THREE different unit systems. Labelling them all
+// as "loss ratio" is wrong and actively misleading -- damage_severe is an exceedance
+// probability, loss_of_use is measured in days, and the debris classes are lbs/sqft.
+// These strings mirror the curve_kind table, which is the authority on units.
+const HU_Y_AXIS = {
+  damage_slight:        ["Probability of exceeding Slight damage", "probability"],
+  damage_moderate:      ["Probability of exceeding Moderate damage", "probability"],
+  damage_severe:        ["Probability of exceeding Severe damage", "probability"],
+  damage_total:         ["Probability of exceeding Total damage", "probability"],
+  building_loss:        ["Building loss (fraction of replacement value)", "fraction"],
+  content_loss:         ["Content loss (fraction of content value)", "fraction"],
+  loss_of_use:          ["Loss of use (days)", "days"],
+  debris_brick_wood:    ["Brick/wood debris (lbs/sq ft)", "lbs_per_sqft"],
+  debris_concrete_steel: ["Concrete/steel debris (lbs/sq ft)", "lbs_per_sqft"],
+};
+
 function hurricaneMeta(buildingType, damageType, terrain, geoCase, attrFilters) {
+  const [yLabel, yUnits] = HU_Y_AXIS[damageType] ||
+    ["Value (units vary by damage type — select one, or join curve_kind)", "mixed"];
   return {
     peril: "hu",
     buildingType: buildingType || null,
@@ -538,9 +564,9 @@ function hurricaneMeta(buildingType, damageType, terrain, geoCase, attrFilters) 
     geographicCase: geoCase || null,
     attributes: attrFilters,
     xLabel: "3-second peak gust (mph)",
-    yLabel: "Loss ratio (fraction of replacement value)",
+    yLabel,
     xUnits: "mph",
-    yUnits: "fraction",
+    yUnits,
   };
 }
 
@@ -679,11 +705,16 @@ function renderChart(displayData, meta, nCurves) {
     }
   }
 
+  const allX = datasets.flatMap(d => d.data.map(p => p.x)).filter(v => v != null);
+  const xMin = allX.length ? Math.min(...allX) : undefined;
+  const xMax = allX.length ? Math.max(...allX) : undefined;
+
   chart = new Chart(ctx, {
     type: "line",
     data: { datasets },
     options: {
-      responsive: false,
+      responsive: true,
+      maintainAspectRatio: false,
       animation: false,
       interaction: { mode: "index", intersect: false },
       plugins: {
@@ -704,6 +735,11 @@ function renderChart(displayData, meta, nCurves) {
       scales: {
         x: {
           type: "linear",
+          // Pin to the data range. Left to auto-scale, Chart.js pads out to round
+          // numbers (-50..50 for a -4..24 ft flood curve) and squashes the plot into
+          // a narrow band.
+          min: xMin,
+          max: xMax,
           title: { display: true, text: meta.xLabel, font: { size: 11 } },
           ticks: { font: { size: 10 } },
         },

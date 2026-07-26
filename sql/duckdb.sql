@@ -12,6 +12,7 @@ CREATE TABLE IF NOT EXISTS curves (
     source_agency VARCHAR,
     description VARCHAR,
     defect_flag VARCHAR,
+    defect_verified VARCHAR,
     source_file VARCHAR NOT NULL,
     source_table VARCHAR NOT NULL,
     source_row_id VARCHAR NOT NULL,

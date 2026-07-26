@@ -71,6 +71,11 @@ CURVES = Table(
         Column("defect_flag", TEXT, True,
                "Non-null when FEMA has disclosed a defect in this curve. See "
                "docs/provenance.md. Null means no known defect, NOT 'verified correct'."),
+        Column("defect_verified", TEXT, True,
+               "Our own measurement, kept separate from FEMA's disclosure above. "
+               "'identical_to_1_story' means this curve was measured to be a byte "
+               "duplicate of its 1-story counterpart; 'differs_from_1_story' means it "
+               "was not. See docs/hurricane_defect.md. 'differs' does NOT mean correct."),
         Column("source_file", TEXT, False, "File in raw/ this row came from."),
         Column("source_table", TEXT, False, "Sheet or table within that file."),
         Column("source_row_id", TEXT, False, "Native Hazus primary key, verbatim."),
