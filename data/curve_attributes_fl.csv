@@ -1,0 +1,346 @@
+curve_id,key,value
+fl-4.0-structure-214,comment,RES6 default
+fl-4.0-structure-591,comment,IND3 Default
+fl-4.0-structure-652,comment,EDU1 default
+fl-4.0-structure-658,comment,RAMPP Inserted
+fl-4.0-structure-659,comment,RAMPP Inserted
+fl-4.0-structure-660,comment,RAMPP Inserted
+fl-4.0-structure-661,comment,RAMPP Inserted
+fl-4.0-structure-662,comment,RAMPP Inserted
+fl-4.0-structure-663,comment,RAMPP Inserted
+fl-4.0-structure-664,comment,RAMPP Inserted
+fl-4.0-structure-665,comment,RAMPP Inserted
+fl-4.0-structure-666,comment,RAMPP Inserted
+fl-4.0-structure-667,comment,RAMPP Inserted
+fl-4.0-structure-668,comment,RAMPP Inserted
+fl-4.0-structure-669,comment,RAMPP Inserted
+fl-4.0-structure-670,comment,RAMPP Inserted
+fl-4.0-structure-671,comment,RAMPP Inserted
+fl-4.0-structure-672,comment,RAMPP Inserted
+fl-4.0-structure-673,comment,RAMPP Inserted
+fl-4.0-structure-674,comment,RAMPP Inserted
+fl-4.0-structure-675,comment,RAMPP Inserted
+fl-4.0-structure-676,comment,RAMPP Inserted
+fl-4.0-structure-677,comment,RAMPP Inserted
+fl-4.0-structure-678,comment,RAMPP Inserted
+fl-4.0-structure-679,comment,RAMPP Inserted
+fl-4.0-structure-680,comment,RAMPP Inserted
+fl-4.0-structure-681,comment,RAMPP Inserted
+fl-4.0-structure-682,comment,RAMPP Inserted
+fl-4.0-structure-683,comment,RAMPP Inserted
+fl-4.0-structure-684,comment,RAMPP Inserted
+fl-4.0-structure-685,comment,RAMPP Inserted
+fl-4.0-structure-686,comment,RAMPP Inserted
+fl-4.0-structure-687,comment,RAMPP Inserted
+fl-4.0-structure-688,comment,RAMPP Inserted
+fl-4.0-structure-689,comment,RAMPP Inserted
+fl-4.0-structure-690,comment,RAMPP Inserted
+fl-4.0-structure-691,comment,RAMPP Inserted
+fl-4.0-structure-692,comment,RAMPP Inserted
+fl-4.0-structure-693,comment,RAMPP Inserted
+fl-4.0-structure-694,comment,RAMPP Inserted
+fl-4.0-structure-695,comment,RAMPP Inserted
+fl-4.0-structure-696,comment,RAMPP Inserted
+fl-4.0-structure-697,comment,RAMPP Inserted
+fl-4.0-structure-698,comment,RAMPP Inserted
+fl-4.0-structure-699,comment,RAMPP Inserted
+fl-4.0-structure-700,comment,RAMPP Inserted
+fl-4.0-structure-701,comment,RAMPP Inserted
+fl-4.0-structure-702,comment,RAMPP Inserted
+fl-4.0-structure-703,comment,RAMPP Inserted
+fl-4.0-structure-704,comment,RAMPP Inserted
+fl-6.1-structure-107,hazus_default_flag,1.0
+fl-6.1-structure-108,hazus_default_flag,1.0
+fl-6.1-structure-109,hazus_default_flag,1.0
+fl-6.1-structure-110,hazus_default_flag,1.0
+fl-6.1-structure-111,hazus_default_flag,1.0
+fl-6.1-structure-112,hazus_default_flag,1.0
+fl-6.1-structure-114,hazus_default_flag,1.0
+fl-6.1-structure-115,hazus_default_flag,1.0
+fl-6.1-structure-116,hazus_default_flag,1.0
+fl-6.1-structure-117,hazus_default_flag,1.0
+fl-6.1-structure-118,hazus_default_flag,1.0
+fl-6.1-structure-120,hazus_default_flag,1.0
+fl-6.1-structure-129,hazus_default_flag,1.0
+fl-6.1-structure-189,hazus_default_flag,1.0
+fl-6.1-structure-190,hazus_default_flag,1.0
+fl-6.1-structure-204,hazus_default_flag,1.0
+fl-6.1-structure-205,hazus_default_flag,1.0
+fl-6.1-structure-209,hazus_default_flag,1.0
+fl-6.1-structure-214,hazus_default_flag,1.0
+fl-6.1-structure-214,comment,RES6 default
+fl-6.1-structure-215,hazus_default_flag,1.0
+fl-6.1-structure-217,hazus_default_flag,1.0
+fl-6.1-structure-341,hazus_default_flag,1.0
+fl-6.1-structure-375,hazus_default_flag,1.0
+fl-6.1-structure-431,hazus_default_flag,1.0
+fl-6.1-structure-467,hazus_default_flag,1.0
+fl-6.1-structure-474,hazus_default_flag,1.0
+fl-6.1-structure-475,hazus_default_flag,1.0
+fl-6.1-structure-493,hazus_default_flag,1.0
+fl-6.1-structure-532,hazus_default_flag,1.0
+fl-6.1-structure-543,hazus_default_flag,1.0
+fl-6.1-structure-545,hazus_default_flag,1.0
+fl-6.1-structure-559,hazus_default_flag,1.0
+fl-6.1-structure-575,hazus_default_flag,1.0
+fl-6.1-structure-586,hazus_default_flag,1.0
+fl-6.1-structure-591,hazus_default_flag,1.0
+fl-6.1-structure-591,comment,IND3 Default
+fl-6.1-structure-592,hazus_default_flag,1.0
+fl-6.1-structure-616,hazus_default_flag,1.0
+fl-6.1-structure-624,hazus_default_flag,1.0
+fl-6.1-structure-631,hazus_default_flag,1.0
+fl-6.1-structure-640,hazus_default_flag,1.0
+fl-6.1-structure-643,hazus_default_flag,1.0
+fl-6.1-structure-652,hazus_default_flag,1.0
+fl-6.1-structure-652,comment,EDU1 default
+fl-6.1-structure-658,hazus_default_flag,1.0
+fl-6.1-structure-658,comment,RAMPP Inserted
+fl-6.1-structure-659,hazus_default_flag,1.0
+fl-6.1-structure-659,comment,RAMPP Inserted
+fl-6.1-structure-660,hazus_default_flag,1.0
+fl-6.1-structure-660,comment,RAMPP Inserted
+fl-6.1-structure-661,comment,RAMPP Inserted
+fl-6.1-structure-662,comment,RAMPP Inserted
+fl-6.1-structure-663,comment,RAMPP Inserted
+fl-6.1-structure-664,comment,RAMPP Inserted
+fl-6.1-structure-665,comment,RAMPP Inserted
+fl-6.1-structure-666,comment,RAMPP Inserted
+fl-6.1-structure-667,hazus_default_flag,1.0
+fl-6.1-structure-667,comment,RAMPP Inserted
+fl-6.1-structure-668,comment,RAMPP Inserted
+fl-6.1-structure-669,comment,RAMPP Inserted
+fl-6.1-structure-670,comment,RAMPP Inserted
+fl-6.1-structure-671,comment,RAMPP Inserted
+fl-6.1-structure-672,comment,RAMPP Inserted
+fl-6.1-structure-673,comment,RAMPP Inserted
+fl-6.1-structure-674,comment,RAMPP Inserted
+fl-6.1-structure-675,comment,RAMPP Inserted
+fl-6.1-structure-676,comment,RAMPP Inserted
+fl-6.1-structure-677,comment,RAMPP Inserted
+fl-6.1-structure-678,comment,RAMPP Inserted
+fl-6.1-structure-679,comment,RAMPP Inserted
+fl-6.1-structure-680,comment,RAMPP Inserted
+fl-6.1-structure-681,comment,RAMPP Inserted
+fl-6.1-structure-682,comment,RAMPP Inserted
+fl-6.1-structure-683,comment,RAMPP Inserted
+fl-6.1-structure-684,comment,RAMPP Inserted
+fl-6.1-structure-685,comment,RAMPP Inserted
+fl-6.1-structure-686,comment,RAMPP Inserted
+fl-6.1-structure-687,comment,RAMPP Inserted
+fl-6.1-structure-688,comment,RAMPP Inserted
+fl-6.1-structure-689,comment,RAMPP Inserted
+fl-6.1-structure-690,comment,RAMPP Inserted
+fl-6.1-structure-691,comment,RAMPP Inserted
+fl-6.1-structure-692,comment,RAMPP Inserted
+fl-6.1-structure-693,comment,RAMPP Inserted
+fl-6.1-structure-694,comment,RAMPP Inserted
+fl-6.1-structure-695,comment,RAMPP Inserted
+fl-6.1-structure-696,comment,RAMPP Inserted
+fl-6.1-structure-697,comment,RAMPP Inserted
+fl-6.1-structure-698,comment,RAMPP Inserted
+fl-6.1-structure-699,comment,RAMPP Inserted
+fl-6.1-structure-700,comment,RAMPP Inserted
+fl-6.1-structure-701,comment,RAMPP Inserted
+fl-6.1-structure-702,comment,RAMPP Inserted
+fl-6.1-structure-703,comment,RAMPP Inserted
+fl-6.1-structure-704,hazus_default_flag,1.0
+fl-6.1-structure-704,comment,RAMPP Inserted
+fl-6.1-structure-837,comment,Bottom of lowest horizontal member is 1.0 feet below top of floor.
+fl-6.1-structure-838,comment,Bottom of lowest horizontal member is 1.0 feet below top of floor.
+fl-6.1-structure-851,comment,USACE Contents DDF % based on contents value equal to 100% building replacement value (BRV)
+fl-6.1-structure-852,comment,USACE Contents DDF % based on contents value equal to 100% building replacement value (BRV)
+fl-6.1-structure-853,comment,USACE Contents DDF % based on contents value equal to 100% building replacement value (BRV)
+fl-6.1-structure-854,comment,USACE Contents DDF % based on contents value equal to 100% building replacement value (BRV)
+fl-6.1-structure-855,comment,USACE Contents DDF % based on contents value equal to 100% building replacement value (BRV)
+fl-6.1-structure-856,comment,USACE Contents DDF % based on contents value equal to 100% building replacement value (BRV)
+fl-6.1-structure-884,comment,Applies to Milliman FoundationType (9) BasementFinishType 0
+fl-6.1-structure-885,comment,Applies to Milliman FoundationType (9) BasementFinishType 0
+fl-6.1-structure-886,comment,Applies to Milliman FoundationType (9) BasementFinishType 0
+fl-6.1-structure-887,comment,Applies to Milliman FoundationType (9) BasementFinishType 0
+fl-6.1-structure-888,comment,Applies to Milliman FoundationType (9) BasementFinishType 0
+fl-6.1-structure-889,comment,Applies to Milliman FoundationType (9) BasementFinishType 0
+fl-6.1-structure-890,comment,"Applies to Milliman FoundationType (4,6,7,8) BasementFinishType 0"
+fl-6.1-structure-891,comment,"Applies to Milliman FoundationType (4,6,7,8) BasementFinishType 0"
+fl-6.1-structure-892,comment,"Applies to Milliman FoundationType (4,6,7,8) BasementFinishType 0"
+fl-6.1-structure-893,comment,"Applies to Milliman FoundationType (4,6,7,8) BasementFinishType 0"
+fl-6.1-structure-894,comment,"Applies to Milliman FoundationType (4,6,7,8) BasementFinishType 0"
+fl-6.1-structure-895,comment,"Applies to Milliman FoundationType (4,6,7,8) BasementFinishType 0"
+fl-6.1-structure-896,comment,Applies to Milliman FoundationType (2) BasementFinishType 1
+fl-6.1-structure-897,comment,Applies to Milliman FoundationType (2) BasementFinishType 1
+fl-6.1-structure-898,comment,Applies to Milliman FoundationType (2) BasementFinishType 1
+fl-6.1-structure-899,comment,Applies to Milliman FoundationType (2) BasementFinishType 2
+fl-6.1-structure-900,comment,Applies to Milliman FoundationType (2) BasementFinishType 2
+fl-6.1-structure-901,comment,Applies to Milliman FoundationType (2) BasementFinishType 2
+fl-6.1-structure-902,comment,Applies to Milliman FoundationType (2) BasementFinishType 1
+fl-6.1-structure-903,comment,Applies to Milliman FoundationType (2) BasementFinishType 1
+fl-6.1-structure-904,comment,Applies to Milliman FoundationType (2) BasementFinishType 1
+fl-6.1-structure-905,comment,Applies to Milliman FoundationType (2) BasementFinishType 2
+fl-6.1-structure-906,comment,Applies to Milliman FoundationType (2) BasementFinishType 2
+fl-6.1-structure-907,comment,Applies to Milliman FoundationType (2) BasementFinishType 2
+fl-6.1-structure-908,comment,Applies to Milliman FoundationType (9) BasementFinishType 0
+fl-6.1-structure-909,comment,Applies to Milliman FoundationType (9) BasementFinishType 0
+fl-6.1-structure-910,comment,"Applies to Milliman FoundationType (4,6,7,8) BasementFinishType 0"
+fl-6.1-structure-911,comment,"Applies to Milliman FoundationType (4,6,7,8) BasementFinishType 0"
+fl-6.1-structure-912,comment,Applies to Milliman FoundationType (2) BasementFinishType 1
+fl-6.1-structure-913,comment,Applies to Milliman FoundationType (2) BasementFinishType 2
+fl-6.1-structure-914,comment,Applies to Milliman FoundationType (2) BasementFinishType 1
+fl-6.1-structure-915,comment,Applies to Milliman FoundationType (2) BasementFinishType 2
+fl-6.1-structure-968,comment,"Bottom of lowest horizontal member is 1.0 feet below top of floor. For a reinforced or pile foundation, change 75% to 45% at Flood Depth of -1 ft."
+fl-6.1-structure-969,comment,Displacement and Loss of Function DDFs adjsuted based on values used for other USACE DDFs.
+fl-4.0-contents-88,comment,RES6 default
+fl-4.0-contents-442,comment,IND3 default
+fl-4.0-contents-485,comment,EDU1 default
+fl-4.0-contents-488,comment,RAMPP Inserted
+fl-4.0-contents-489,comment,RAMPP Inserted
+fl-4.0-contents-490,comment,RAMPP Inserted
+fl-4.0-contents-491,comment,RAMPP Inserted
+fl-4.0-contents-492,comment,RAMPP Inserted
+fl-4.0-contents-493,comment,RAMPP Inserted
+fl-4.0-contents-494,comment,RAMPP Inserted
+fl-4.0-contents-495,comment,RAMPP Inserted
+fl-4.0-contents-496,comment,RAMPP Inserted
+fl-4.0-contents-497,comment,RAMPP Inserted
+fl-4.0-contents-498,comment,RAMPP Inserted
+fl-4.0-contents-499,comment,RAMPP Inserted
+fl-4.0-contents-500,comment,RAMPP Inserted
+fl-4.0-contents-501,comment,RAMPP Inserted
+fl-4.0-contents-502,comment,RAMPP Inserted
+fl-4.0-contents-503,comment,RAMPP Inserted
+fl-4.0-contents-504,comment,RAMPP Inserted
+fl-4.0-contents-505,comment,RAMPP Inserted
+fl-4.0-contents-506,comment,RAMPP Inserted
+fl-4.0-contents-507,comment,RAMPP Inserted
+fl-4.0-contents-508,comment,RAMPP Inserted
+fl-4.0-contents-509,comment,RAMPP Inserted
+fl-4.0-contents-510,comment,RAMPP Inserted
+fl-4.0-contents-511,comment,RAMPP Inserted
+fl-4.0-contents-512,comment,RAMPP Inserted
+fl-4.0-contents-513,comment,RAMPP Inserted
+fl-4.0-contents-514,comment,RAMPP Inserted
+fl-4.0-contents-515,comment,RAMPP Inserted
+fl-4.0-contents-516,comment,RAMPP Inserted
+fl-4.0-contents-517,comment,RAMPP Inserted
+fl-4.0-contents-518,comment,RAMPP Inserted
+fl-4.0-contents-519,comment,RAMPP Inserted
+fl-4.0-contents-520,comment,RAMPP Inserted
+fl-4.0-contents-521,comment,RAMPP Inserted
+fl-4.0-contents-522,comment,RAMPP Inserted
+fl-4.0-contents-523,comment,RAMPP Inserted
+fl-4.0-contents-524,comment,RAMPP Inserted
+fl-4.0-contents-525,comment,RAMPP Inserted
+fl-4.0-contents-526,comment,RAMPP Inserted
+fl-4.0-contents-527,comment,RAMPP Inserted
+fl-4.0-contents-528,comment,RAMPP Inserted
+fl-4.0-contents-529,comment,RAMPP Inserted
+fl-4.0-contents-530,comment,RAMPP Inserted
+fl-4.0-contents-531,comment,RAMPP Inserted
+fl-4.0-contents-532,comment,RAMPP Inserted
+fl-4.0-contents-533,comment,RAMPP Inserted
+fl-4.0-contents-535,comment,RAMPP Inserted
+fl-6.1-contents-23,hazus_default_flag,1.0
+fl-6.1-contents-24,hazus_default_flag,1.0
+fl-6.1-contents-25,hazus_default_flag,1.0
+fl-6.1-contents-26,hazus_default_flag,1.0
+fl-6.1-contents-27,hazus_default_flag,1.0
+fl-6.1-contents-28,hazus_default_flag,1.0
+fl-6.1-contents-30,hazus_default_flag,1.0
+fl-6.1-contents-32,hazus_default_flag,1.0
+fl-6.1-contents-34,hazus_default_flag,1.0
+fl-6.1-contents-36,hazus_default_flag,1.0
+fl-6.1-contents-45,hazus_default_flag,1.0
+fl-6.1-contents-74,hazus_default_flag,1.0
+fl-6.1-contents-75,hazus_default_flag,1.0
+fl-6.1-contents-81,hazus_default_flag,1.0
+fl-6.1-contents-82,hazus_default_flag,1.0
+fl-6.1-contents-85,hazus_default_flag,1.0
+fl-6.1-contents-88,hazus_default_flag,1.0
+fl-6.1-contents-88,comment,RES6 default
+fl-6.1-contents-89,hazus_default_flag,1.0
+fl-6.1-contents-90,hazus_default_flag,1.0
+fl-6.1-contents-195,hazus_default_flag,1.0
+fl-6.1-contents-240,hazus_default_flag,1.0
+fl-6.1-contents-280,hazus_default_flag,1.0
+fl-6.1-contents-304,hazus_default_flag,1.0
+fl-6.1-contents-309,hazus_default_flag,1.0
+fl-6.1-contents-312,hazus_default_flag,1.0
+fl-6.1-contents-322,hazus_default_flag,1.0
+fl-6.1-contents-352,hazus_default_flag,1.0
+fl-6.1-contents-357,hazus_default_flag,1.0
+fl-6.1-contents-358,hazus_default_flag,1.0
+fl-6.1-contents-384,hazus_default_flag,1.0
+fl-6.1-contents-408,hazus_default_flag,1.0
+fl-6.1-contents-433,hazus_default_flag,1.0
+fl-6.1-contents-442,hazus_default_flag,1.0
+fl-6.1-contents-442,comment,IND3 default
+fl-6.1-contents-443,hazus_default_flag,1.0
+fl-6.1-contents-460,hazus_default_flag,1.0
+fl-6.1-contents-467,hazus_default_flag,1.0
+fl-6.1-contents-472,hazus_default_flag,1.0
+fl-6.1-contents-477,hazus_default_flag,1.0
+fl-6.1-contents-480,hazus_default_flag,1.0
+fl-6.1-contents-485,hazus_default_flag,1.0
+fl-6.1-contents-485,comment,EDU1 default
+fl-6.1-contents-488,hazus_default_flag,1.0
+fl-6.1-contents-488,comment,RAMPP Inserted
+fl-6.1-contents-489,hazus_default_flag,1.0
+fl-6.1-contents-489,comment,RAMPP Inserted
+fl-6.1-contents-490,hazus_default_flag,1.0
+fl-6.1-contents-490,comment,RAMPP Inserted
+fl-6.1-contents-491,comment,RAMPP Inserted
+fl-6.1-contents-492,comment,RAMPP Inserted
+fl-6.1-contents-493,comment,RAMPP Inserted
+fl-6.1-contents-494,comment,RAMPP Inserted
+fl-6.1-contents-495,comment,RAMPP Inserted
+fl-6.1-contents-496,comment,RAMPP Inserted
+fl-6.1-contents-497,hazus_default_flag,1.0
+fl-6.1-contents-497,comment,RAMPP Inserted
+fl-6.1-contents-498,comment,RAMPP Inserted
+fl-6.1-contents-499,comment,RAMPP Inserted
+fl-6.1-contents-500,comment,RAMPP Inserted
+fl-6.1-contents-501,comment,RAMPP Inserted
+fl-6.1-contents-502,comment,RAMPP Inserted
+fl-6.1-contents-503,comment,RAMPP Inserted
+fl-6.1-contents-504,comment,RAMPP Inserted
+fl-6.1-contents-505,comment,RAMPP Inserted
+fl-6.1-contents-506,comment,RAMPP Inserted
+fl-6.1-contents-507,comment,RAMPP Inserted
+fl-6.1-contents-508,comment,RAMPP Inserted
+fl-6.1-contents-509,comment,RAMPP Inserted
+fl-6.1-contents-510,comment,RAMPP Inserted
+fl-6.1-contents-511,comment,RAMPP Inserted
+fl-6.1-contents-512,comment,RAMPP Inserted
+fl-6.1-contents-513,comment,RAMPP Inserted
+fl-6.1-contents-514,comment,RAMPP Inserted
+fl-6.1-contents-515,comment,RAMPP Inserted
+fl-6.1-contents-516,comment,RAMPP Inserted
+fl-6.1-contents-517,comment,RAMPP Inserted
+fl-6.1-contents-518,comment,RAMPP Inserted
+fl-6.1-contents-519,comment,RAMPP Inserted
+fl-6.1-contents-520,comment,RAMPP Inserted
+fl-6.1-contents-521,comment,RAMPP Inserted
+fl-6.1-contents-522,comment,RAMPP Inserted
+fl-6.1-contents-523,comment,RAMPP Inserted
+fl-6.1-contents-524,comment,RAMPP Inserted
+fl-6.1-contents-525,comment,RAMPP Inserted
+fl-6.1-contents-526,comment,RAMPP Inserted
+fl-6.1-contents-527,comment,RAMPP Inserted
+fl-6.1-contents-528,comment,RAMPP Inserted
+fl-6.1-contents-529,comment,RAMPP Inserted
+fl-6.1-contents-530,comment,RAMPP Inserted
+fl-6.1-contents-531,comment,RAMPP Inserted
+fl-6.1-contents-532,comment,RAMPP Inserted
+fl-6.1-contents-533,comment,RAMPP Inserted
+fl-6.1-contents-535,hazus_default_flag,1.0
+fl-6.1-contents-535,comment,RAMPP Inserted
+fl-4.0-inventory-111,comment,IND3 default
+fl-6.1-inventory-1,hazus_default_flag,1.0
+fl-6.1-inventory-46,hazus_default_flag,1.0
+fl-6.1-inventory-70,hazus_default_flag,1.0
+fl-6.1-inventory-81,hazus_default_flag,1.0
+fl-6.1-inventory-93,hazus_default_flag,1.0
+fl-6.1-inventory-106,hazus_default_flag,1.0
+fl-6.1-inventory-111,hazus_default_flag,1.0
+fl-6.1-inventory-111,comment,IND3 default
+fl-6.1-inventory-112,hazus_default_flag,1.0
+fl-6.1-inventory-116,hazus_default_flag,1.0

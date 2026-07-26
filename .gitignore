@@ -1,0 +1,15 @@
+.venv/
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+
+# Raw source snapshots are fetched, not committed (see docs/provenance.md).
+# raw/MANIFEST.json IS committed - it is the integrity record.
+raw/*
+!raw/MANIFEST.json
+
+# Build artifacts ship as GitHub Release assets, not in git.
+dist/
+
+.DS_Store

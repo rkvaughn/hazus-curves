@@ -1,0 +1,142 @@
+{
+  "Building_DDF_CoastalA_LUT_Hazus4p0.csv": {
+    "bytes": 11582,
+    "hazus_version": "4.0",
+    "kind": "data",
+    "note": "Default structure DDF assignment, Coastal A.",
+    "peril": "fl",
+    "retrieved_at": "2026-07-26T15:28:54+00:00",
+    "sha256": "e949a4a6a9b11c19f35fb1faa038ede769ad72bc56e9e5cc73224db5b8881552",
+    "url": "https://raw.githubusercontent.com/nhrap-hazus/FAST/main/Lookuptables/Building_DDF_CoastalA_LUT_Hazus4p0.csv"
+  },
+  "Building_DDF_CoastalV_LUT_Hazus4p0.csv": {
+    "bytes": 11571,
+    "hazus_version": "4.0",
+    "kind": "data",
+    "note": "Default structure DDF assignment, Coastal V.",
+    "peril": "fl",
+    "retrieved_at": "2026-07-26T15:28:54+00:00",
+    "sha256": "b5b56c1dcd2eb9f0326e1e8a5f58abe806cd8ca393871f676a3ea8f169422459",
+    "url": "https://raw.githubusercontent.com/nhrap-hazus/FAST/main/Lookuptables/Building_DDF_CoastalV_LUT_Hazus4p0.csv"
+  },
+  "Building_DDF_Riverine_LUT_Hazus4p0.csv": {
+    "bytes": 33699,
+    "hazus_version": "4.0",
+    "kind": "data",
+    "note": "Default structure DDF assignment, riverine.",
+    "peril": "fl",
+    "retrieved_at": "2026-07-26T15:28:54+00:00",
+    "sha256": "941d41388451290530a05a295ab5c6c7c480e8474ed2f5d062a69b3439e0f633",
+    "url": "https://raw.githubusercontent.com/nhrap-hazus/FAST/main/Lookuptables/Building_DDF_Riverine_LUT_Hazus4p0.csv"
+  },
+  "Content_DDF_CoastalA_LUT_Hazus4p0.csv": {
+    "bytes": 12120,
+    "hazus_version": "4.0",
+    "kind": "data",
+    "note": "Default contents DDF assignment, Coastal A.",
+    "peril": "fl",
+    "retrieved_at": "2026-07-26T15:28:55+00:00",
+    "sha256": "45182435896dd7a2f7245b1ad10493f3ececdacf6173d59969e077ab53a9c8ad",
+    "url": "https://raw.githubusercontent.com/nhrap-hazus/FAST/main/Lookuptables/Content_DDF_CoastalA_LUT_Hazus4p0.csv"
+  },
+  "Content_DDF_CoastalV_LUT_Hazus4p0.csv": {
+    "bytes": 12116,
+    "hazus_version": "4.0",
+    "kind": "data",
+    "note": "Default contents DDF assignment, Coastal V.",
+    "peril": "fl",
+    "retrieved_at": "2026-07-26T15:28:55+00:00",
+    "sha256": "367421fc8c6b567f80ab07555d621142ce9ad0338036974e027cb2a386e7cb30",
+    "url": "https://raw.githubusercontent.com/nhrap-hazus/FAST/main/Lookuptables/Content_DDF_CoastalV_LUT_Hazus4p0.csv"
+  },
+  "Content_DDF_Riverine_LUT_Hazus4p0.csv": {
+    "bytes": 37054,
+    "hazus_version": "4.0",
+    "kind": "data",
+    "note": "Default contents DDF assignment, riverine.",
+    "peril": "fl",
+    "retrieved_at": "2026-07-26T15:28:55+00:00",
+    "sha256": "e9879f6de93ba8b374dbfea94ffd979b5f5ae1da7ce26a67543c173a8b68defd",
+    "url": "https://raw.githubusercontent.com/nhrap-hazus/FAST/main/Lookuptables/Content_DDF_Riverine_LUT_Hazus4p0.csv"
+  },
+  "HazusFloodDamageFunctions_Hazus61.xlsx": {
+    "bytes": 403618,
+    "hazus_version": "6.1",
+    "kind": "data",
+    "note": "Sheets: flBldgStrucDmgFn (2), flBldgStrucDmgFn, flBldgContDmgFunc, flBldgInvDmgFn, SOoccupId_Occ_Xref, flBldgStructDmgFinal, flBldgContDmgFinal, flBldgInvDmgFinal, OccupancyTypes.",
+    "peril": "fl",
+    "retrieved_at": "2026-07-26T15:28:56+00:00",
+    "sha256": "e32e0a7f55d6efd84a5ac14f0d42b5aa2a067841dfd9418a269ba3089e82475e",
+    "url": "https://os-climate-physical-risk.s3.amazonaws.com/vulnerability/HazusFloodDamageFunctions_Hazus61.xlsx"
+  },
+  "HazusWindDamFunctions_Hazus61.xlsx": {
+    "bytes": 102182624,
+    "hazus_version": "6.1",
+    "kind": "data",
+    "note": "Sheets: huListOfWindBldgTypes, huDamLossFunDescription, huDamLossFun. FEMA's 7.1 release notes disclose that in 6.1/7.0 the WMUH2/WMUH3/MMUH2/MMUH3 curves were overwritten with 1-story copies -- these are flagged, not withheld. See docs/provenance.md.",
+    "peril": "hu",
+    "retrieved_at": "2026-07-26T15:29:23+00:00",
+    "sha256": "0fe93bbdc5d4ae3a3eace7f8147436ad63f381175688671aebd769674d1bc353",
+    "url": "https://os-climate-physical-risk.s3.amazonaws.com/vulnerability/HazusWindDamFunctions_Hazus61.xlsx"
+  },
+  "Inventory_DDF_LUT_Hazus4p0.csv": {
+    "bytes": 9849,
+    "hazus_version": "4.0",
+    "kind": "data",
+    "note": "Default inventory DDF assignment.",
+    "peril": "fl",
+    "retrieved_at": "2026-07-26T15:28:55+00:00",
+    "sha256": "e5b502dc0d48306305590a94b1e709ba3e055e54d33c9c30f3eb1274eaea9c9a",
+    "url": "https://raw.githubusercontent.com/nhrap-hazus/FAST/main/Lookuptables/Inventory_DDF_LUT_Hazus4p0.csv"
+  },
+  "OccupancyTypes.csv": {
+    "bytes": 4959,
+    "hazus_version": "4.0",
+    "kind": "data",
+    "note": "Occupancy class dimension. Values are space-padded; strip on load.",
+    "peril": "all",
+    "retrieved_at": "2026-07-26T15:28:56+00:00",
+    "sha256": "e5cd56817dfd2790f18bc43188b7013cd9b39e3633ef4dd0b1e34a08dc17aa96",
+    "url": "https://raw.githubusercontent.com/nhrap-hazus/FAST/main/Lookuptables/OccupancyTypes.csv"
+  },
+  "flBldgContDmgFn.csv": {
+    "bytes": 86626,
+    "hazus_version": "4.0",
+    "kind": "data",
+    "note": "Building contents depth-damage functions.",
+    "peril": "fl",
+    "retrieved_at": "2026-07-26T15:28:53+00:00",
+    "sha256": "4aac53864935e688883adcefaedb813addfbe3804d71f5857f5af66f9db88067",
+    "url": "https://raw.githubusercontent.com/nhrap-hazus/FAST/main/Lookuptables/flBldgContDmgFn.csv"
+  },
+  "flBldgInvDmgFn.csv": {
+    "bytes": 18141,
+    "hazus_version": "4.0",
+    "kind": "data",
+    "note": "Business inventory depth-damage functions.",
+    "peril": "fl",
+    "retrieved_at": "2026-07-26T15:28:54+00:00",
+    "sha256": "918d65589f8f1d93e55b15fc98226a55d3ea6c0b157500ff17ee2a73a688e092",
+    "url": "https://raw.githubusercontent.com/nhrap-hazus/FAST/main/Lookuptables/flBldgInvDmgFn.csv"
+  },
+  "flBldgStructDmgFn.csv": {
+    "bytes": 98616,
+    "hazus_version": "4.0",
+    "kind": "data",
+    "note": "Building structure depth-damage functions. Wide: m4..m1, p0..p24.",
+    "peril": "fl",
+    "retrieved_at": "2026-07-26T15:28:53+00:00",
+    "sha256": "b7fc0e12c618165c641f1a3ba08b0cca57c70168945024597be16396245510a8",
+    "url": "https://raw.githubusercontent.com/nhrap-hazus/FAST/main/Lookuptables/flBldgStructDmgFn.csv"
+  },
+  "flUtilFltyDmgFn.csv": {
+    "bytes": 7480,
+    "hazus_version": "6.1",
+    "kind": "data",
+    "note": "Utility facility damage functions.",
+    "peril": "fl",
+    "retrieved_at": "2026-07-26T15:28:57+00:00",
+    "sha256": "30b2573bcbaa8d16a943912f68ab4a5272be7cc7faf8eeccb6273666c36090fe",
+    "url": "https://os-climate-physical-risk.s3.amazonaws.com/vulnerability/flUtilFltyDmgFn.csv"
+  }
+}

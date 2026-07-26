@@ -1,0 +1,53 @@
+cff-version: 1.2.0
+title: "hazus-curves: an open database of FEMA Hazus damage and vulnerability curves"
+message: >-
+  If you use this database, please cite both this repository and the underlying
+  FEMA Hazus model and its originating agencies. The curves are FEMA's work;
+  this project only extracts, reshapes and documents them.
+type: software
+authors:
+  - family-names: Vaughn
+    given-names: Ryan
+version: 0.1.0
+license: MIT
+abstract: >-
+  Tidy, long-format relational database of FEMA Hazus flood depth-damage functions
+  (Hazus 4.0 and 6.1) and hurricane wind damage and loss functions (Hazus 6.1),
+  extracted from public sources, with full per-value provenance, a measured
+  version diff, and independent verification of a FEMA-disclosed data defect.
+keywords:
+  - Hazus
+  - FEMA
+  - natural hazards
+  - flood
+  - hurricane
+  - vulnerability functions
+  - depth-damage functions
+
+references:
+  - type: software
+    title: "Hazus"
+    authors:
+      - name: "Federal Emergency Management Agency"
+    notes: >-
+      Underlying source of all curve data. Flood curves in this database are from
+      Hazus 4.0 and 6.1; hurricane curves are from Hazus 6.1. Cite the specific
+      Hazus version and technical manual relevant to your use. Originating
+      agencies named in the source_agency field include US Army Corps of Engineers
+      districts, the Federal Insurance Administration, and FEMA's Benefit-Cost
+      Analysis and Probabilistic Flood Risk Assessment programmes.
+    url: "https://www.fema.gov/flood-maps/products-tools/hazus"
+  - type: software
+    title: "FAST (Flood Assessment Structure Tool)"
+    authors:
+      - name: "Federal Emergency Management Agency"
+    notes: "Source of the Hazus 4.0 flood damage function tables."
+    url: "https://github.com/nhrap-hazus/FAST"
+  - type: software
+    title: "physrisk"
+    authors:
+      - name: "OS-Climate"
+    notes: >-
+      Maintains the public bucket from which the Hazus 6.1 flood and hurricane
+      workbooks were obtained.
+    url: "https://github.com/os-climate/physrisk"

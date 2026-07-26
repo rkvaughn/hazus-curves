@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Hazus Vulnerability Curves</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+<header>
+  <h1>Hazus Vulnerability Curves</h1>
+  <p>Flood and hurricane wind damage functions from Hazus 4.0 and 6.1 — browse, preview, and download without installing Hazus.</p>
+</header>
+
+<!-- Fatal init error (shown if DuckDB-WASM fails to load) -->
+<div id="init-error">
+  <h2>Could not initialise the query engine</h2>
+  <p>This tool requires DuckDB-WASM, loaded from jsDelivr CDN. Possible causes:</p>
+  <ul style="margin:.4rem 0 .4rem 1.2rem;font-size:.88rem;">
+    <li>You are offline or a firewall is blocking <code>cdn.jsdelivr.net</code></li>
+    <li>The data files are missing from <code>data/</code> — see the README</li>
+  </ul>
+  <p id="init-error-detail" style="font-family:monospace;font-size:.8rem;"></p>
+</div>
+
+<main>
+  <!-- ── Left panel: filters ── -->
+  <aside class="panel" id="filter-panel">
+    <h2>Filters</h2>
+
+    <!-- Peril selector -->
+    <div class="field">
+      <label>Peril</label>
+      <div class="peril-tabs">
+        <button class="peril-tab active" data-peril="fl" id="tab-fl">Flood</button>
+        <button class="peril-tab"        data-peril="hu" id="tab-hu">Hurricane Wind</button>
+      </div>
+    </div>
+
+    <!-- ── Flood filters ── -->
+    <div id="flood-filters">
+      <div class="filters-section">
+        <h3>Flood options</h3>
+
+        <div class="field">
+          <label for="fl-occupancy">Occupancy class</label>
+          <select id="fl-occupancy">
+            <option value="">-- All --</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label for="fl-damage-type">Damage type</label>
+          <select id="fl-damage-type">
+            <option value="">-- All --</option>
+            <option value="structure">Structure</option>
+            <option value="contents">Contents</option>
+            <option value="inventory">Inventory</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label for="fl-version">Hazus version</label>
+          <select id="fl-version">
+            <option value="">-- All --</option>
+            <option value="4.0">4.0</option>
+            <option value="6.1">6.1</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label for="fl-zone">
+            Region / flood zone
+            <span class="hint">(select by Hazus zone — no address lookup)</span>
+          </label>
+          <select id="fl-zone">
+            <option value="">-- All --</option>
+            <option value="Riverine">Riverine</option>
+            <option value="CoastalA">Coastal A</option>
+            <option value="CoastalV">Coastal V</option>
+          </select>
+          <div class="notice" style="margin-top:.4rem;">
+            These curves contain no state or county key. Selecting a zone
+            filters by Hazus flood-zone type, not a geographic location.
+          </div>
+        </div>
+
+        <div class="field">
+          <label for="fl-agency">Source region / agency</label>
+          <select id="fl-agency">
+            <option value="">-- All --</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── Hurricane filters ── -->
+    <div id="hurricane-filters" class="hidden">
+      <div class="filters-section">
+        <h3>Hurricane options</h3>
+
+        <div class="field">
+          <label for="hu-building-type">Building type</label>
+          <select id="hu-building-type">
+            <option value="">-- All --</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label for="hu-damage-type">Damage type</label>
+          <select id="hu-damage-type">
+            <option value="">-- All --</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label for="hu-terrain">Terrain</label>
+          <select id="hu-terrain">
+            <option value="">-- All --</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label for="hu-geographic-case">Geographic case</label>
+          <select id="hu-geographic-case">
+            <option value="">-- All --</option>
+          </select>
+        </div>
+
+        <!-- Dynamic attribute filters loaded from curve_attributes_hu -->
+        <div id="hu-attr-filters"></div>
+
+        <div class="notice">
+          Region / flood zone is not applicable to hurricane curves.
+          These curves contain no state or county key.
+        </div>
+      </div>
+    </div>
+
+    <!-- Query button -->
+    <div style="margin-top:1rem;">
+      <button class="btn btn-primary" id="query-btn" style="width:100%;">Search curves</button>
+    </div>
+
+    <!-- Loading indicator -->
+    <div id="loading" style="margin-top:.75rem;display:none;">
+      <div class="spinner"></div>
+      <span id="loading-msg">Loading…</span>
+    </div>
+
+  </aside>
+
+  <!-- ── Right panel: results ── -->
+  <div id="results-panel">
+
+    <!-- Status bar -->
+    <div id="status-bar">Select filters and press "Search curves".</div>
+
+    <!-- Error display -->
+    <div id="error-display">
+      <strong>Query error</strong>
+      <pre id="error-text"></pre>
+    </div>
+
+    <!-- Defect warning -->
+    <div id="defect-banner">
+      <strong>&#9888; Known FEMA defect — use with caution</strong>
+      Some curves in this result set carry a FEMA-disclosed defect (Hazus 6.1 / 7.0
+      multi-family wind damage functions inadvertently overwritten with 1-story copies).
+      See <em>docs/hurricane_defect.md</em> for details.
+      <span id="defect-verified-note"></span>
+    </div>
+
+    <!-- Derived / averaged notice -->
+    <div id="derived-banner">
+      <strong>DERIVED — not a FEMA-published curve</strong>
+      <span id="derived-detail"></span>
+    </div>
+
+    <!-- Chart -->
+    <div id="chart-wrap">
+      <div id="chart-placeholder">No data — apply filters and search.</div>
+      <canvas id="chart-canvas" style="display:none;"></canvas>
+    </div>
+
+    <!-- Download row -->
+    <div id="download-row" style="display:none;" class="btn-group">
+      <button class="btn btn-primary btn-sm" id="dl-csv">Download CSV</button>
+      <button class="btn btn-primary btn-sm" id="dl-json">Download JSON</button>
+    </div>
+
+    <!-- Stats table (averaging) -->
+    <div id="stats-wrap">
+      <strong style="font-size:.82rem;display:block;margin-bottom:.3rem;">
+        Dispersion across averaged curves (at each x)
+      </strong>
+      <div style="overflow-x:auto;">
+        <table id="stats-table">
+          <thead>
+            <tr>
+              <th>x</th>
+              <th>mean y</th>
+              <th>std dev</th>
+              <th>min y</th>
+              <th>max y</th>
+            </tr>
+          </thead>
+          <tbody id="stats-tbody"></tbody>
+        </table>
+      </div>
+    </div>
+
+  </div>
+</main>
+
+<footer>
+  <p>
+    This project is <strong>not affiliated with or endorsed by FEMA</strong>.
+    "Hazus" is a registered trademark of the Federal Emergency Management Agency.
+    Data are extracted from publicly available Hazus source files and republished
+    for research purposes.
+  </p>
+</footer>
+
+<!-- Chart.js — loaded as a module-compatible UMD so app.js can import it via window.Chart -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js"></script>
+<!-- app.js as an ES module (imports DuckDB-WASM ESM from jsDelivr) -->
+<script type="module" src="app.js"></script>
+
+</body>
+</html>
