@@ -40,7 +40,9 @@ def main() -> int:
     perils = [p.strip() for p in args.perils.split(",") if p.strip()]
 
     fetch_args = ["--perils", ",".join(perils)]
-    if args.docs:
+    # The hurricane building-type names come from the Hurricane Technical Manual, so
+    # the docs are not optional when building that peril.
+    if args.docs or "hu" in perils:
         fetch_args.append("--docs")
     run("fetch.py", *fetch_args)
 
@@ -50,6 +52,7 @@ def main() -> int:
     if "hu" in perils:
         run("build_hurricane.py")
         run("verify_hurricane_defect.py")
+        run("extract_building_types.py")
 
     # Small default artifact first, then the full Parquet set on top.
     run("build_db.py", "--perils", "fl")

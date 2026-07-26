@@ -77,8 +77,29 @@ Reproduce it with `python scripts/diff_versions.py`.
 
 ## Source 3 — FEMA documentation
 
-FEMA release notes and technical manuals, used to document version history rather than to
-extract curve values.
+FEMA release notes and technical manuals, used to document version history and to supply
+the hurricane building type names.
+
+### Building type names
+
+The wind workbook identifies building types by bare code (`WSF1`, `MMUH3`) and contains
+no natural-language names for them — every sheet was checked. The names come from
+**Table C-1, "List of SBT Abbreviations", Appendix C of the Hazus Hurricane Model
+Technical Manual 7.0**, parsed programmatically by
+`scripts/extract_building_types.py`. All 39 codes present in the data have a description
+from that table.
+
+They are parsed rather than transcribed, and a test re-parses the manual and requires the
+published strings to match it exactly. Names like "Single Family Homes, 1 Story - Wood"
+are easy to write plausibly from general knowledge and impossible to audit afterwards, so
+the pipeline refuses to write a description it cannot cite: if a code has no entry in the
+manual, the field stays empty and the site falls back to showing the bare code.
+
+One wrinkle worth recording: Table C-2 immediately follows and reuses the same
+`NN_SBT` row labels for per-region statistics, so a naive parse picks up rows like
+`01_WSF1 01-Roof Shape Hip 13 26.9 34 ...`. The extractor stops at the first row whose
+description carries a WBC number prefix, and a test asserts no such row reached the
+published data.
 
 `fema.gov` returns **HTTP 403 to every automated fetcher** we tried. The Internet Archive
 serves the identical PDFs: prefix any fema.gov PDF URL with

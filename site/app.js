@@ -223,16 +223,24 @@ async function populateFloodFilters() {
 async function populateHurricaneFilters() {
   // Building types
   const btResult = await conn.query(
-    `SELECT DISTINCT building_type
-     FROM read_parquet('${DATA_BASE}curves_hu.parquet')
-     WHERE building_type IS NOT NULL
-     ORDER BY building_type`
+    // Names come from dim_building_type, sourced from Table C-1 of the Hazus
+    // Hurricane Technical Manual -- the wind workbook itself carries only codes.
+    // LEFT JOIN so a code with no sourced description still appears, rather than
+    // being dropped or given an invented name.
+    `SELECT DISTINCT c.building_type, d.description
+     FROM read_parquet('${DATA_BASE}curves_hu.parquet') c
+     LEFT JOIN read_parquet('${DATA_BASE}dim_building_type.parquet') d
+       ON d.building_type = c.building_type
+     WHERE c.building_type IS NOT NULL
+     ORDER BY d.description NULLS LAST, c.building_type`
   );
   const btSel = el("hu-building-type");
   for (const row of toRows(btResult)) {
     const opt = document.createElement("option");
     opt.value = row.building_type;
-    opt.textContent = row.building_type;
+    opt.textContent = row.description
+      ? `${row.description} (${row.building_type})`
+      : row.building_type;
     btSel.appendChild(opt);
   }
 

@@ -240,9 +240,24 @@ def build():
     adf.to_parquet(DIST / "curve_attributes_hu.parquet", index=False,
                    compression="zstd")
 
-    bt = (cdf[["building_type"]].drop_duplicates()
-          .assign(description=None).rename(columns={"building_type": "building_type"}))
-    bt.to_csv(DATA / "dim_building_type.csv", index=False)
+    # Codes only. The wind workbook has no natural-language names for building types
+    # -- every sheet was checked. scripts/extract_building_types.py fills the
+    # description column from Table C-1 of the Hurricane Technical Manual. Don't
+    # clobber descriptions it has already written.
+    bt_path = DATA / "dim_building_type.csv"
+    codes = sorted(cdf["building_type"].dropna().unique())
+    existing = {}
+    if bt_path.exists():
+        prior = pd.read_csv(bt_path, dtype=str)
+        if "description" in prior.columns:
+            existing = dict(zip(prior["building_type"], prior["description"]))
+    pd.DataFrame({"building_type": codes,
+                  "description": [existing.get(c) for c in codes]}
+                 ).to_csv(bt_path, index=False)
+    n_described = sum(1 for c in codes if existing.get(c))
+    if n_described < len(codes):
+        print(f"  {len(codes) - n_described}/{len(codes)} building types have no "
+              f"description yet -- run scripts/extract_building_types.py")
 
     flagged = int(cdf["defect_flag"].notna().sum())
     print(f"\n  {n_curves} hurricane curves, {n_points} points, {len(attrs)} attributes")

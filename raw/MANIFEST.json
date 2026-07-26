@@ -99,6 +99,56 @@
     "sha256": "e5cd56817dfd2790f18bc43188b7013cd9b39e3633ef4dd0b1e34a08dc17aa96",
     "url": "https://raw.githubusercontent.com/nhrap-hazus/FAST/main/Lookuptables/OccupancyTypes.csv"
   },
+  "fema_Hazus-6.1-Release-Notes.pdf": {
+    "bytes": 781943,
+    "hazus_version": "6.1",
+    "kind": "doc",
+    "note": "Documents the ~300 structure / ~400 content DDF expansion in 6.1.",
+    "peril": "doc",
+    "retrieved_at": "2026-07-26T18:17:03+00:00",
+    "sha256": "75ae8d7460389da49102c5fedc774483f64fe0d1928312096103f77357125379",
+    "url": "https://web.archive.org/web/2025id_/https://www.fema.gov/sites/default/files/documents/fema_Hazus-6.1-Release-Notes.pdf"
+  },
+  "fema_hazus-7-1-release-notes.pdf": {
+    "bytes": 286703,
+    "hazus_version": "7.1",
+    "kind": "doc",
+    "note": "RSA-21186: the huDamLossFun multi-family wind curve correction.",
+    "peril": "doc",
+    "retrieved_at": "2026-07-26T18:17:11+00:00",
+    "sha256": "ee156040d4c973ba484888c5da2d332e44c2c37908beb0870e24e090497332dc",
+    "url": "https://web.archive.org/web/2025id_/https://www.fema.gov/sites/default/files/documents/fema_hazus-7-1-release-notes.pdf"
+  },
+  "fema_hazus_7_release_notes.pdf": {
+    "bytes": 1686388,
+    "hazus_version": "7.0",
+    "kind": "doc",
+    "note": "Depth-limited coastal DDF assignment rule; hurricane defects disclosed.",
+    "peril": "doc",
+    "retrieved_at": "2026-07-26T18:17:07+00:00",
+    "sha256": "bcf0d092089f89a829a08ecb1206b98ee3cd57f4a1d48f8d54a0ed48608abe9a",
+    "url": "https://web.archive.org/web/2025id_/https://www.fema.gov/sites/default/files/documents/fema_hazus_7_release_notes.pdf"
+  },
+  "fema_rsl_hazus-7-fltm_06272025_0.pdf": {
+    "bytes": 1234449,
+    "hazus_version": "7.0",
+    "kind": "doc",
+    "note": "Flood Model Technical Manual 7.0.",
+    "peril": "doc",
+    "retrieved_at": "2026-07-26T18:17:16+00:00",
+    "sha256": "4fd5a0402dab23c9607ec824f728e2cef68cfac00a3882cdec3a0746516f7690",
+    "url": "https://web.archive.org/web/2025id_/https://www.fema.gov/sites/default/files/documents/fema_rsl_hazus-7-fltm_06272025_0.pdf"
+  },
+  "fema_rsl_hazus-7-hutm_06272025_0.pdf": {
+    "bytes": 32374860,
+    "hazus_version": "7.0",
+    "kind": "doc",
+    "note": "Hurricane Model Technical Manual 7.0.",
+    "peril": "doc",
+    "retrieved_at": "2026-07-26T18:17:27+00:00",
+    "sha256": "7a1e3189db4b38c79f7bd77a7b77de99846d518e71ae403eb5aafcccac8a444e",
+    "url": "https://web.archive.org/web/2025id_/https://www.fema.gov/sites/default/files/documents/fema_rsl_hazus-7-hutm_06272025_0.pdf"
+  },
   "flBldgContDmgFn.csv": {
     "bytes": 86626,
     "hazus_version": "4.0",

@@ -1,40 +1,40 @@
 building_type,description
-WSF1,
-WSF2,
-WMUH1,
-WMUH2,
-WMUH3,
-MSF1,
-MSF2,
-MMUH1,
-MMUH2,
-MMUH3,
-MLRM1,
-MLRM2,
-MLRI,
-MERBL,
-MERBM,
-MERBH,
-MECBL,
-MECBM,
-MECBH,
-CERBL,
-CERBM,
-CERBH,
-CECBL,
-CECBM,
-CECBH,
-SPMBS,
-SPMBM,
-SPMBL,
-SERBL,
-SERBM,
-SERBH,
-SECBL,
-SECBM,
-SECBH,
-MHPHUD,
-MH76HUD,
-MH94HUDI,
-MH94HUDII,
-MH94HUDIII,
+CECBH,"Concrete Engineered Commercial Buildings, 6 or More Stories"
+CECBL,"Concrete Engineered Commercial Buildings, 1-2 Stories"
+CECBM,"Concrete Engineered Commercial Buildings, 3-5 Stories"
+CERBH,"Concrete Engineered Residential Buildings, 6 or More Stories"
+CERBL,"Concrete Engineered Residential Buildings, 1-2 Stories"
+CERBM,"Concrete Engineered Residential Buildings, 3-5 Stories"
+MECBH,"Masonry Engineered Commercial Buildings, 6 or More Stories"
+MECBL,"Masonry Engineered Commercial Buildings, 1-2 Stories"
+MECBM,"Masonry Engineered Commercial Buildings, 3-5 Stories"
+MERBH,"Masonry Engineered Residential Buildings, 6 or More Stories"
+MERBL,"Masonry Engineered Residential Buildings, 1-2 Stories"
+MERBM,"Masonry Engineered Residential Buildings, 3-5 Stories"
+MH76HUD,"Manufactured Home, 1976-1994"
+MH94HUDI,"Manufactured Home, After 1994 Zone 1"
+MH94HUDII,"Manufactured Home, After 1994 Zone 2"
+MH94HUDIII,"Manufactured Home, After 1994 Zone 3"
+MHPHUD,"Manufactured Home, Before 1976"
+MLRI,"Low-Rise Masonry Warehouse/Factory, 20ft high"
+MLRM1,"Low-Rise Masonry Strip Mall, Up to 15ft high"
+MLRM2,"Low-Rise Masonry Strip Mall, More than 15ft high"
+MMUH1,"Masonry Multi-Unit/Hotel/Motel, 1 Story"
+MMUH2,"Masonry Multi-Unit/Hotel/Motel, 2 Stories"
+MMUH3,"Masonry Multi-Unit/Hotel/Motel, 3 or More"
+MSF1,"Single Family Homes, 1 Story - Masonry"
+MSF2,"Single Family Homes, 2 or More Stories - Masonry"
+SECBH,"Steel Engineered Commercial Buildings, 6 or More Stories"
+SECBL,"Steel Engineered Commercial Buildings, 1-2 Stories"
+SECBM,"Steel Engineered Commercial Buildings, 3-5 Stories"
+SERBH,"Steel Engineered Residential Buildings, 6 or More Stories"
+SERBL,"Steel Engineered Residential Buildings, 1-2 Stories"
+SERBM,"Steel Engineered Residential Buildings, 3-5 Stories"
+SPMBL,"Pre-Engineered Metal Building, Large - Steel"
+SPMBM,"Pre-Engineered Metal Building, Med - Steel"
+SPMBS,"Pre-Engineered Metal Building, Small - Steel"
+WMUH1,"Wood Multi-Unit/Hotel/Motel, 1 Story"
+WMUH2,"Wood Multi-Unit/Hotel/Motel, 2 Stories"
+WMUH3,"Wood Multi-Unit/Hotel/Motel, 3 or More"
+WSF1,"Single Family Homes, 1 Story - Wood"
+WSF2,"Single Family Homes, 2 or More Stories - Wood"
