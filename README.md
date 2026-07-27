@@ -16,7 +16,7 @@ minute.
 install, no account. Filter, chart and download curves as CSV or JSON.
 
 > Not affiliated with or endorsed by FEMA. "Hazus" is a trademark of the Federal
-> Emergency Management Agency. See [LICENSE-DATA.md](LICENSE-DATA.md).
+> Emergency Management Agency. See [LICENSE-DATA.md](https://github.com/rkvaughn/hazus-curves/blob/main/LICENSE-DATA.md).
 
 ---
 
@@ -45,7 +45,7 @@ hazus-curves install --perils fl    --target postgresql://user@localhost/hazus
 ```
 
 DDL for SQLite, DuckDB, PostgreSQL and Snowflake is generated from a single schema
-definition ([`hazus_curves/schema.py`](hazus_curves/schema.py)) into [`sql/`](sql/), so
+definition ([`hazus_curves/schema.py`](https://github.com/rkvaughn/hazus-curves/blob/main/hazus_curves/schema.py)) into [`sql/`](https://github.com/rkvaughn/hazus-curves/tree/main/sql/), so
 the engines cannot drift apart.
 
 ## What's in it
@@ -67,7 +67,7 @@ include four damage-state exceedance probabilities, building and content loss ra
 **loss of use in days**, and two debris measures in lbs/sq ft.
 
 **Those nine classes do not share units.** Join the `curve_kind` table rather than
-assuming — see [docs/schema.md](docs/schema.md).
+assuming — see [docs/schema.md](https://github.com/rkvaughn/hazus-curves/blob/main/docs/schema.md).
 
 ## The rule this project is built on
 
@@ -95,7 +95,7 @@ were revised. Measured directly:
 | inventory | 116 | 116 | 0 | 0 | **0** |
 
 Every curve that existed in Hazus 4.0 survives into 6.1 bit for bit, so results computed
-against the older library remain reproducible. → [docs/version_changes.md](docs/version_changes.md)
+against the older library remain reproducible. → [docs/version_changes.md](https://github.com/rkvaughn/hazus-curves/blob/main/docs/version_changes.md)
 
 ### A FEMA-disclosed hurricane defect, independently confirmed
 
@@ -111,7 +111,7 @@ The defect is real and measurable. Affected curves ship with a `defect_flag` **c
 the data**, not a footnote, plus a `defect_verified` column recording our own measurement
 separately from FEMA's disclosure. We flag rather than withhold — a flagged curve is more
 useful than a missing one, and Hazus 7.1+ (which has the fix) is not publicly
-extractable. → [docs/hurricane_defect.md](docs/hurricane_defect.md)
+extractable. → [docs/hurricane_defect.md](https://github.com/rkvaughn/hazus-curves/blob/main/docs/hurricane_defect.md)
 
 ### The third-party mirror checks out against FEMA's own data
 
@@ -120,24 +120,23 @@ The Hazus 6.1 workbooks reach us via a mirror maintained by
 and how they obtained them is undocumented. That is a real provenance gap — so we tested
 it. The 6.1 workbook contains a sheet holding the pre-6.1 structure library; compared
 against FEMA's own published Hazus 4.0 CSVs, all 597 curves across all 29 depth values
-are **identical, with zero discrepancies**. → [docs/provenance.md](docs/provenance.md)
+are **identical, with zero discrepancies**. → [docs/provenance.md](https://github.com/rkvaughn/hazus-curves/blob/main/docs/provenance.md)
 
 Also worth knowing before you use the data: some upstream probabilities exceed 1.0, and
 nine building-characteristic codes are missing from Hazus's own decode table. Both are
-preserved as-is and documented in [docs/data_quality.md](docs/data_quality.md).
+preserved as-is and documented in [docs/data_quality.md](https://github.com/rkvaughn/hazus-curves/blob/main/docs/data_quality.md).
 
 ## Building from source
 
 ```bash
 python -m venv .venv && .venv/bin/pip install -r requirements.txt
-.venv/bin/python scripts/fetch.py --perils fl,hu    # ~103 MB, SHA-256 verified
-.venv/bin/python scripts/build_flood.py
-.venv/bin/python scripts/build_hurricane.py
-.venv/bin/python scripts/verify_hurricane_defect.py
-.venv/bin/python scripts/diff_versions.py
-.venv/bin/python scripts/build_db.py --perils fl,hu
-.venv/bin/python -m pytest                          # 90 tests
+.venv/bin/python scripts/build_all.py --perils fl,hu   # fetch + build everything
+.venv/bin/python -m pytest                             # 114 tests
 ```
+
+`build_all.py` runs the whole pipeline; each stage is also runnable on its own
+(`fetch.py`, `build_flood.py`, `build_hurricane.py`, `verify_hurricane_defect.py`,
+`extract_building_types.py`, `diff_versions.py`, `build_db.py`).
 
 `fetch.py` is idempotent: re-running verifies checksums rather than re-downloading.
 
@@ -145,13 +144,14 @@ python -m venv .venv && .venv/bin/pip install -r requirements.txt
 
 | | |
 |---|---|
-| [docs/schema.md](docs/schema.md) | Table reference, units, worked SQL |
-| [docs/provenance.md](docs/provenance.md) | Where every number comes from |
-| [docs/version_changes.md](docs/version_changes.md) | Hazus 4.0 → 6.1 → 7.x |
-| [docs/hurricane_defect.md](docs/hurricane_defect.md) | The defect and its verification |
-| [docs/data_quality.md](docs/data_quality.md) | Known upstream quirks |
-| [docs/prior_art.md](docs/prior_art.md) | Honest comparison with existing work |
-| [docs/roadmap.md](docs/roadmap.md) | Earthquake, tsunami, weighting, address model |
+| [docs/schema.md](https://github.com/rkvaughn/hazus-curves/blob/main/docs/schema.md) | Table reference, units, worked SQL |
+| [docs/provenance.md](https://github.com/rkvaughn/hazus-curves/blob/main/docs/provenance.md) | Where every number comes from |
+| [docs/version_changes.md](https://github.com/rkvaughn/hazus-curves/blob/main/docs/version_changes.md) | Hazus 4.0 → 6.1 → 7.x |
+| [docs/hurricane_defect.md](https://github.com/rkvaughn/hazus-curves/blob/main/docs/hurricane_defect.md) | The defect and its verification |
+| [docs/data_quality.md](https://github.com/rkvaughn/hazus-curves/blob/main/docs/data_quality.md) | Known upstream quirks |
+| [docs/audit_geographic_mapping.md](https://github.com/rkvaughn/hazus-curves/blob/main/docs/audit_geographic_mapping.md) | Audit of geographic scoping and curve mapping |
+| [docs/prior_art.md](https://github.com/rkvaughn/hazus-curves/blob/main/docs/prior_art.md) | Honest comparison with existing work |
+| [docs/roadmap.md](https://github.com/rkvaughn/hazus-curves/blob/main/docs/roadmap.md) | Earthquake, tsunami, weighting, address model |
 
 ## Scope and limits
 
@@ -168,12 +168,12 @@ python -m venv .venv && .venv/bin/pip install -r requirements.txt
 - **The flood curves substantially overlap existing prior art.** The value added here is
   the schema, the version diff and the packaging — not that the data was unavailable.
   Hurricane wind in open tidy form does appear to be new. See
-  [docs/prior_art.md](docs/prior_art.md).
+  [docs/prior_art.md](https://github.com/rkvaughn/hazus-curves/blob/main/docs/prior_art.md).
 
 ## Licence
 
-Code: MIT ([LICENSE](LICENSE)). Data: believed to be a US Government work under
+Code: MIT ([LICENSE](https://github.com/rkvaughn/hazus-curves/blob/main/LICENSE)). Data: believed to be a US Government work under
 17 U.S.C. § 105, with the uncertainties stated plainly in
-[LICENSE-DATA.md](LICENSE-DATA.md).
+[LICENSE-DATA.md](https://github.com/rkvaughn/hazus-curves/blob/main/LICENSE-DATA.md).
 
-Please cite FEMA and the originating agencies — see [CITATION.cff](CITATION.cff).
+Please cite FEMA and the originating agencies — see [CITATION.cff](https://github.com/rkvaughn/hazus-curves/blob/main/CITATION.cff).

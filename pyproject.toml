@@ -4,19 +4,40 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "hazus-curves"
-version = "0.1.0"
+version = "0.1.1"
 description = "Open database of FEMA Hazus damage and vulnerability curves"
 readme = "README.md"
 requires-python = ">=3.9"
 license = { text = "MIT" }
-keywords = ["hazus", "fema", "flood", "hurricane", "vulnerability", "damage-functions"]
+authors = [{ name = "Ryan Vaughn", email = "rkvaughn@gmail.com" }]
+keywords = [
+    "hazus", "fema", "flood", "hurricane", "vulnerability", "damage-functions",
+    "depth-damage", "natural-hazards", "risk", "open-data",
+]
 classifiers = [
+    "Development Status :: 4 - Beta",
     "Intended Audience :: Science/Research",
     "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
     "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
     "Topic :: Scientific/Engineering",
+    "Topic :: Scientific/Engineering :: GIS",
+    "Topic :: Database",
 ]
 dependencies = []
+
+[project.urls]
+Homepage      = "https://github.com/rkvaughn/hazus-curves"
+"Curve browser" = "https://rkvaughn.github.io/hazus-curves/"
+Repository    = "https://github.com/rkvaughn/hazus-curves"
+Documentation = "https://github.com/rkvaughn/hazus-curves/tree/main/docs"
+Issues        = "https://github.com/rkvaughn/hazus-curves/issues"
+Changelog     = "https://github.com/rkvaughn/hazus-curves/releases"
 
 [project.optional-dependencies]
 sql = ["pandas>=1.5", "pyarrow>=10", "SQLAlchemy>=2.0"]
