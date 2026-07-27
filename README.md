@@ -12,6 +12,9 @@ This project extracts them, reshapes them into tidy long format, documents where
 number came from, and packages the result so a researcher can start querying in under a
 minute.
 
+**→ [Browse the curves in your browser](https://rkvaughn.github.io/hazus-curves/)** — no
+install, no account. Filter, chart and download curves as CSV or JSON.
+
 > Not affiliated with or endorsed by FEMA. "Hazus" is a trademark of the Federal
 > Emergency Management Agency. See [LICENSE-DATA.md](LICENSE-DATA.md).
 
