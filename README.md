@@ -22,10 +22,20 @@ install, no account. Filter, chart and download curves as CSV or JSON.
 
 ## Quickstart
 
+> **Not on PyPI yet.** `pip install hazus-curves` does **not** work today — the first
+> release has not been published. Install from GitHub instead; everything below behaves
+> identically either way.
+
 ```bash
-pip install hazus-curves
+pip install "git+https://github.com/rkvaughn/hazus-curves@v0.1.0"   # until PyPI is live
 hazus-curves install                 # flood curves -> ~/.hazus_curves/ (7 MB)
 hazus-curves query "SELECT curve_id, occupancy, source_agency FROM curves LIMIT 5"
+```
+
+Once published this becomes:
+
+```bash
+pip install hazus-curves
 ```
 
 ```python
