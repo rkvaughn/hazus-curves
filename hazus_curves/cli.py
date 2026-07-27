@@ -22,9 +22,10 @@ from .reader import DEFAULT_DB_NAME, connect, default_db_path
 from .schema import TABLES, ddl
 
 # Prebuilt artifacts. Overridable with --from for local builds or a private mirror.
-RELEASE_BASE = (
-    "https://github.com/OWNER/hazus_curves/releases/latest/download/"
-)
+# Also referenced by site/index.html (the header repo link). Keep both in step if the
+# repository is renamed or moved.
+REPO_URL = "https://github.com/rkvaughn/hazus-curves"
+RELEASE_BASE = f"{REPO_URL}/releases/latest/download/"
 
 PERIL_NAMES = {"fl": "flood", "hu": "hurricane wind"}
 
