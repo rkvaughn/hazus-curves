@@ -5,9 +5,22 @@ __pycache__/
 .pytest_cache/
 
 # Raw source snapshots are fetched, not committed (see docs/provenance.md).
-# raw/MANIFEST.json IS committed - it is the integrity record.
+# Raw upstream sources.
+#
+# The small ones are committed. They total ~756 KB, and after the os-climate bucket
+# was disabled on 2026-08-12 there is real value in the inputs being inspectable and
+# diffable in the repository itself rather than only reachable through a download.
+#
+# Two things stay out:
+#   - HazusWindDamFunctions_Hazus61.xlsx (97.4 MiB). Git history is permanent, and
+#     committing it would roughly double the cost of every clone and every
+#     `pip install git+...` forever. It is a v0.1.0 release asset instead, and
+#     fetch.py pulls it from there with SHA-256 verification.
+#   - FEMA PDFs (~35 MB). FEMA's to distribute, and fetch.py --docs retrieves them.
 raw/*
 !raw/MANIFEST.json
+!raw/*.csv
+!raw/HazusFloodDamageFunctions_Hazus61.xlsx
 
 # Build artifacts ship as GitHub Release assets, not in git.
 dist/
