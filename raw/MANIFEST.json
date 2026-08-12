@@ -65,7 +65,7 @@
     "kind": "data",
     "note": "Sheets: flBldgStrucDmgFn (2), flBldgStrucDmgFn, flBldgContDmgFunc, flBldgInvDmgFn, SOoccupId_Occ_Xref, flBldgStructDmgFinal, flBldgContDmgFinal, flBldgInvDmgFinal, OccupancyTypes.",
     "peril": "fl",
-    "retrieved_at": "2026-07-26T15:28:56+00:00",
+    "retrieved_at": "2026-08-12T17:01:53+00:00",
     "sha256": "e32e0a7f55d6efd84a5ac14f0d42b5aa2a067841dfd9418a269ba3089e82475e",
     "url": "https://os-climate-physical-risk.s3.amazonaws.com/vulnerability/HazusFloodDamageFunctions_Hazus61.xlsx"
   },

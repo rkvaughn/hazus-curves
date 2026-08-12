@@ -55,25 +55,81 @@ The worksheets inside are named for authentic Hazus database tables — `huDamLo
 counts match FEMA's published descriptions of the model (6,116 wind building types,
 39 specific building types, "over 275,000 damage functions").
 
-### The honest caveat
+### ⚠️ This bucket is no longer reachable
 
-**How os-climate obtained these Excel extracts is not documented upstream.** They are not
-a FEMA publication. We are relying on a third party's copy.
+**As of 2026-08-12 the bucket returns `403 AllAccessDisabled` for every object and for
+the bucket listing.** That is an AWS-level shutdown of the whole bucket, not a
+permissions change by the owner. There is no Internet Archive capture of the objects.
 
-### Why we publish them anyway
+Consequences, stated plainly:
 
-Because we were able to check it. The 6.1 flood workbook contains a sheet named
-`flBldgStrucDmgFn (2)` holding the pre-6.1 structure library. We compared all 597 of its
-curves, across all 29 depth values, against FEMA's own FAST 4.0 CSV:
+- The Hazus 6.1 flood and hurricane workbooks **can no longer be downloaded from their
+  original location by anyone**, including us.
+- We hold copies whose SHA-256 matches what was recorded at retrieval time
+  (2026-07-26), and we now re-host them as assets on the
+  [v0.1.0 release](https://github.com/rkvaughn/hazus-curves/releases/tag/v0.1.0).
+  `scripts/fetch.py` falls back to that mirror automatically and **refuses any mirrored
+  file whose hash does not match `raw/MANIFEST.json`**, which is committed to this
+  repository.
+- Nobody can now independently re-download the originals and compare bytes with us. That
+  verification path is closed, and no amount of care on our part reopens it.
 
-> **Every value is identical. 597 curves, 17,313 values, zero discrepancies.**
+### What can still be verified independently
 
-That is independent evidence that this mirror reproduces Hazus data faithfully rather
-than approximating or re-deriving it. It does not prove the hurricane workbook is equally
-faithful — nothing available to us can prove that — but it materially raises confidence,
-and it is a real check rather than an appeal to plausibility.
+**1. The origin claim is checkable in public source code.** os-climate/physrisk
+(Apache-2.0, actively maintained) names this exact bucket and path in
+`src/physrisk/vulnerability_models/configuration/hazus_config_builders.py`:
 
-Reproduce it with `python scripts/diff_versions.py`.
+```python
+s3 = s3fs.S3FileSystem(anon=True)
+s3.download(str(PurePosixPath("os-climate-physical-risk") / "vulnerability" / filename), ...)
+```
+
+and reads the sheets `huListOfWindBldgTypes`, `huDamLossFunDescription` and
+`huDamLossFun` from `HazusWindDamFunctions_Hazus61.xlsx`. OS-Climate is a real
+organisation (96 public repositories, os-climate.org). This establishes where the files
+came from; it does not establish how OS-Climate obtained them, which remains
+undocumented upstream.
+
+**2. The flood workbook agrees exactly with a FEMA publication.** The 6.1 workbook
+carries a sheet `flBldgStrucDmgFn (2)` holding the pre-6.1 structure library. Compared
+against FEMA's own FAST 4.0 CSVs — still live on GitHub:
+
+> **597 curves, 17,313 values, zero discrepancies.**
+
+Reproduce with `python scripts/diff_versions.py`.
+
+**3. The hurricane workbook agrees with the FEMA Technical Manual on four independent
+counts.** This matters because check 2 says nothing about the wind data. Each of these
+is verifiable against a PDF you can download yourself:
+
+| Check | FEMA Technical Manual 7.0 | This workbook |
+|---|---|---|
+| Wind building characteristics | *"there are 62 individual WBCs"* | **62** distinct codes |
+| Specific building types | 39, named in Table C-1 | **39**, all names match |
+| Damage function count | *"over 275,000 damage functions"* | **275,220** = 6,116 × 5 × 9 |
+| Multi-family defect (7.1 notes) | 2-/3-story overwritten with 1-story | **15,200** confirmed duplicates |
+
+The last is the strongest of the four. FEMA's Hazus 7.1 release notes disclose a
+specific, non-obvious defect in the 6.1 wind data; that defect is present in this
+workbook and reproducible at row level. A re-derived or synthetic dataset would not
+carry it.
+
+Note that check 1 also explains the nine "missing" characteristic codes recorded in
+`data_quality.md`: 53 documented + 9 undocumented = the 62 the manual states.
+
+### What remains unverified
+
+- How OS-Climate obtained the workbooks from Hazus. Not documented anywhere we could
+  find.
+- Whether the hurricane workbook is byte-faithful to the Hazus 6.1 SQL Server tables. The
+  four checks above are strong structural evidence, not proof of every cell.
+- Why the bucket was disabled. We have no information, and it would be irresponsible to
+  speculate about whether it relates to the contents.
+
+If byte-level fidelity to an official source matters for your use, the only authoritative
+route is a licensed Hazus install on Windows with ArcGIS Pro. This project exists because
+that route is closed to most researchers, not because it is equivalent.
 
 ## Source 3 — FEMA documentation
 

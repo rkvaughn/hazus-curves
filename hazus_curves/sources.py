@@ -19,8 +19,25 @@ WAYBACK_PREFIX = "https://web.archive.org/web/2025id_/"
 FAST_RAW = (
     "https://raw.githubusercontent.com/nhrap-hazus/FAST/main/Lookuptables/"
 )
+
+# WARNING: this bucket went dark on 2026-08-12, returning
+# 403 AllAccessDisabled for every object and for the bucket listing. That is an
+# AWS-level shutdown, not an ACL change. os-climate/physrisk still names this exact
+# bucket and path in its published source, so the origin of these files remains
+# checkable, but they can no longer be downloaded from here.
+#
+# We mirror them ourselves (MIRROR_BASE below) precisely because upstream sources
+# decay -- FEMA's own fema-ftp-snapshot bucket died the same way before this project
+# started. Files fetched from the mirror are verified against the SHA-256 recorded in
+# raw/MANIFEST.json, which is committed, so a mirrored copy is provably the same bytes
+# that were originally retrieved from upstream.
 OSC_RAW = (
     "https://os-climate-physical-risk.s3.amazonaws.com/vulnerability/"
+)
+
+# Our own re-hosted copies, attached to the v0.1.0 GitHub release.
+MIRROR_BASE = (
+    "https://github.com/rkvaughn/hazus-curves/releases/download/v0.1.0/"
 )
 
 

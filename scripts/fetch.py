@@ -21,7 +21,8 @@ from pathlib import Path
 import requests
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
-from hazus_curves.sources import ALL_SOURCES, DATA_SOURCES, DOC_SOURCES, for_perils
+from hazus_curves.sources import (ALL_SOURCES, DATA_SOURCES, DOC_SOURCES,
+                                  MIRROR_BASE, for_perils)
 
 REPO = Path(__file__).resolve().parent.parent
 RAW = REPO / "raw"
@@ -49,14 +50,44 @@ def save_manifest(manifest: dict) -> None:
     MANIFEST.write_text(json.dumps(manifest, indent=2, sort_keys=True) + "\n")
 
 
-def download(source, dest: Path) -> None:
-    with requests.get(source.url, stream=True, timeout=300) as resp:
+def download_from(url: str, dest: Path) -> None:
+    with requests.get(url, stream=True, timeout=300) as resp:
         resp.raise_for_status()
         tmp = dest.with_suffix(dest.suffix + ".part")
         with tmp.open("wb") as fh:
             for block in resp.iter_content(CHUNK):
                 fh.write(block)
         tmp.replace(dest)
+
+
+def download(source, dest: Path, manifest: dict) -> str:
+    """Fetch from upstream, falling back to our mirror. Returns which was used.
+
+    The os-climate bucket that supplied the Hazus 6.1 workbooks went dark
+    (403 AllAccessDisabled) on 2026-08-12, which would otherwise make this project
+    unreproducible. Falling back is only safe because raw/MANIFEST.json is committed:
+    a mirrored file is accepted only if its SHA-256 matches the hash recorded when the
+    file was first retrieved from upstream, so the mirror cannot silently substitute
+    different bytes.
+    """
+    try:
+        download_from(source.url, dest)
+        return "upstream"
+    except requests.RequestException as exc:
+        recorded = manifest.get(source.name, {}).get("sha256")
+        if not recorded:
+            raise
+        print(f"           upstream unavailable ({exc.__class__.__name__}); "
+              f"trying mirror")
+        download_from(MIRROR_BASE + source.name, dest)
+        digest = sha256_of(dest)
+        if digest != recorded:
+            dest.unlink(missing_ok=True)
+            raise RuntimeError(
+                f"{source.name}: mirror copy sha256 {digest[:16]}... does not match "
+                f"the manifest hash {recorded[:16]}.... Refusing to use it."
+            ) from exc
+        return "mirror"
 
 
 def check_expectations(source, path: Path, problems: list) -> None:
@@ -122,10 +153,12 @@ def main() -> int:
 
         print(f"  fetch    {source.name}")
         try:
-            download(source, dest)
-        except requests.RequestException as exc:
+            origin = download(source, dest, manifest)
+        except (requests.RequestException, RuntimeError) as exc:
             problems.append(f"{source.name}: download failed: {exc}")
             continue
+        if origin == "mirror":
+            print(f"           served from mirror; sha256 matches manifest")
 
         digest = sha256_of(dest)
         check_expectations(source, dest, problems)

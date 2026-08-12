@@ -123,14 +123,29 @@ separately from FEMA's disclosure. We flag rather than withhold — a flagged cu
 useful than a missing one, and Hazus 7.1+ (which has the fix) is not publicly
 extractable. → [docs/hurricane_defect.md](https://github.com/rkvaughn/hazus-curves/blob/main/docs/hurricane_defect.md)
 
-### The third-party mirror checks out against FEMA's own data
+### The third-party source checks out against FEMA's own data
 
-The Hazus 6.1 workbooks reach us via a mirror maintained by
+The Hazus 6.1 workbooks reached us via a public bucket belonging to
 [os-climate/physrisk](https://github.com/os-climate/physrisk), not directly from FEMA,
 and how they obtained them is undocumented. That is a real provenance gap — so we tested
-it. The 6.1 workbook contains a sheet holding the pre-6.1 structure library; compared
-against FEMA's own published Hazus 4.0 CSVs, all 597 curves across all 29 depth values
-are **identical, with zero discrepancies**. → [docs/provenance.md](https://github.com/rkvaughn/hazus-curves/blob/main/docs/provenance.md)
+it rather than assert it.
+
+- **Flood:** the 6.1 workbook embeds the pre-6.1 structure library; against FEMA's own
+  published Hazus 4.0 CSVs, all 597 curves across all 29 depth values are **identical,
+  zero discrepancies**.
+- **Hurricane:** matches the FEMA Technical Manual on four independent counts — 62 wind
+  building characteristics, 39 specific building types, "over 275,000 damage functions"
+  (275,220), and it **reproduces a specific defect FEMA disclosed in its 7.1 release
+  notes** (15,200 confirmed duplicate curves). A re-derived dataset would not carry that.
+
+> ⚠️ **That bucket went dark on 2026-08-12** (`403 AllAccessDisabled`, whole bucket, no
+> Internet Archive capture). The originals can no longer be downloaded by anyone, so
+> re-downloading and byte-comparing is no longer possible. We re-host our SHA-256-verified
+> copies on the [v0.1.0 release](https://github.com/rkvaughn/hazus-curves/releases/tag/v0.1.0);
+> `fetch.py` falls back to them and rejects any file whose hash does not match the
+> committed manifest.
+
+→ [docs/provenance.md](https://github.com/rkvaughn/hazus-curves/blob/main/docs/provenance.md)
 
 Also worth knowing before you use the data: some upstream probabilities exceed 1.0, and
 nine building-characteristic codes are missing from Hazus's own decode table. Both are
