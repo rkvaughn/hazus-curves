@@ -186,7 +186,13 @@ git clone --depth 1 --single-branch https://github.com/rkvaughn/hazus-curves.git
 
 The Parquet tables behind the web tool live in a separate repository,
 [hazus-curves-data](https://github.com/rkvaughn/hazus-curves-data), so they are not
-pulled by a clone or by `pip install`.
+pulled by a clone or by `pip install`. That repository documents itself — schema
+reference, worked queries and provenance — and can be used without this one. Its
+documentation is generated from the schema and the data:
+
+```bash
+.venv/bin/python scripts/build_data_repo_docs.py --out ../hazus-curves-data
+```
 
 `build_all.py` runs the whole pipeline; each stage is also runnable on its own
 (`fetch.py`, `build_flood.py`, `build_hurricane.py`, `verify_hurricane_defect.py`,
