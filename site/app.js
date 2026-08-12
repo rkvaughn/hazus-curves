@@ -22,10 +22,21 @@ import * as duckdb from "https://cdn.jsdelivr.net/npm/@duckdb/duckdb-wasm@1.29.0
 // ─────────────────────────────────────────────────────────────────────────────
 
 // Must be an ABSOLUTE URL. DuckDB-WASM's httpfs resolves paths itself and does not
-// interpret them relative to the page, so "./data/" fails with "No files found that
-// match the pattern". Resolving against location.href keeps this working under a
-// GitHub Pages project subpath as well as at a domain root.
-const DATA_BASE = new URL("data/", window.location.href).href;
+// interpret them relative to the page, so a relative "./data/" fails with "No files
+// found that match the pattern".
+//
+// In production the ~107 MB of Parquet lives in a separate repository, served from its
+// own GitHub Pages site. That keeps it out of every clone of the main repository while
+// still being CDN-backed and sending both `access-control-allow-origin: *` and Range
+// support, which DuckDB-WASM needs to read it cross-origin.
+//
+// Locally, scripts/serve_site.py syncs the same files into ./data/, so development and
+// review do not depend on the network or on the data repo being up to date.
+const REMOTE_DATA = "https://rkvaughn.github.io/hazus-curves-data/";
+const IS_LOCAL = ["localhost", "127.0.0.1", ""].includes(window.location.hostname);
+const DATA_BASE = IS_LOCAL
+  ? new URL("data/", window.location.href).href
+  : REMOTE_DATA;
 
 // Hurricane attribute keys to surface as individual filter dropdowns.
 // All keys are loaded dynamically; this list controls display ordering.

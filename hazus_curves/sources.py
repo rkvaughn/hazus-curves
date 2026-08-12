@@ -199,6 +199,31 @@ DOC_SOURCES = [
     Source("fema_rsl_hazus-7-hutm_06272025_0.pdf",
            WAYBACK_PREFIX + _FEMA + "fema_rsl_hazus-7-hutm_06272025_0.pdf",
            "7.0", "doc", kind="doc", note="Hurricane Model Technical Manual 7.0."),
+    Source("fema_rsl_hazus-7-invtm_06272025_1.pdf",
+           WAYBACK_PREFIX + _FEMA + "fema_rsl_hazus-7-invtm_06272025_1.pdf",
+           "7.0", "doc", kind="doc",
+           note="Inventory Technical Manual 7.0 - occupancy and building type code lists."),
+    Source("fema_hazus-flood-model-technical-manual-6-1.pdf",
+           WAYBACK_PREFIX + _FEMA + "fema_hazus-flood-model-technical-manual-6-1.pdf",
+           "6.1", "doc", kind="doc",
+           note="Flood Model Technical Manual 6.1 - matches the flood curve vintage."),
+    Source("Hazus_6.1_Hurricane_Model_Technical_Manual.pdf",
+           WAYBACK_PREFIX + _FEMA + "Hazus_6.1_Hurricane_Model_Technical_Manual.pdf",
+           "6.1", "doc", kind="doc",
+           note="Hurricane Model Technical Manual 6.1 - matches the wind curve vintage."),
+    Source("fema_hazus-inventory-technical-manual-6.1.pdf",
+           WAYBACK_PREFIX + _FEMA + "fema_hazus-inventory-technical-manual-6.1.pdf",
+           "6.1", "doc", kind="doc", note="Inventory Technical Manual 6.1."),
+    # Earthquake and tsunami are not extracted in v1, but the manuals are retained so
+    # the acquisition path is proven and the v2 work has its sources pinned.
+    Source("fema_hazus-earthquake-model-technical-manual-6-1.pdf",
+           WAYBACK_PREFIX + _FEMA + "fema_hazus-earthquake-model-technical-manual-6-1.pdf",
+           "6.1", "doc", kind="doc",
+           note="Earthquake Model Technical Manual 6.1 - fragility parameters, for v2."),
+    Source("Hazus_6.1_Tsunami_Model_Technical_Manual.pdf",
+           WAYBACK_PREFIX + _FEMA + "Hazus_6.1_Tsunami_Model_Technical_Manual.pdf",
+           "6.1", "doc", kind="doc",
+           note="Tsunami Model Technical Manual 6.1 - for v2."),
 ]
 
 ALL_SOURCES = FAST_SOURCES + OSC_SOURCES + DOC_SOURCES

@@ -16,10 +16,14 @@ __pycache__/
 #     committing it would roughly double the cost of every clone and every
 #     `pip install git+...` forever. It is a v0.1.0 release asset instead, and
 #     fetch.py pulls it from there with SHA-256 verification.
-#   - FEMA PDFs (~35 MB). FEMA's to distribute, and fetch.py --docs retrieves them.
+# The FEMA manuals and release notes (~101 MB) ARE committed. They are the evidence
+# base for docs/Hazus_Data_Verification_Report.docx, and after the os-climate bucket was
+# disabled there is real value in the sources travelling with the repository rather than
+# depending on a host staying up.
 raw/*
 !raw/MANIFEST.json
 !raw/*.csv
+!raw/*.pdf
 !raw/HazusFloodDamageFunctions_Hazus61.xlsx
 
 # Build artifacts ship as GitHub Release assets, not in git.

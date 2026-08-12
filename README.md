@@ -151,6 +151,24 @@ Also worth knowing before you use the data: some upstream probabilities exceed 1
 nine building-characteristic codes are missing from Hazus's own decode table. Both are
 preserved as-is and documented in [docs/data_quality.md](https://github.com/rkvaughn/hazus-curves/blob/main/docs/data_quality.md).
 
+## Verification
+
+Everything here is checkable against FEMA's own documents, and
+**[the verification report](https://github.com/rkvaughn/hazus-curves/blob/main/docs/Hazus_Data_Verification_Report.docx)**
+(Word, 23 pages) does exactly that: nine quantities FEMA states in four published
+documents, each tested against this dataset, with the source page reproduced as a
+screenshot alongside its URL and page number. Eight match; one is a partial match and is
+reported as a discrepancy rather than presented as agreement.
+
+All eleven FEMA manuals and release notes it cites are committed under
+[`raw/`](https://github.com/rkvaughn/hazus-curves/tree/main/raw/), so the evidence base
+travels with the repository. Regenerate the report with:
+
+```bash
+.venv/bin/python scripts/build_verification_evidence.py   # locate, render, measure
+node scripts/build_verification_docx.js                   # build the document
+```
+
 ## Building from source
 
 ```bash
@@ -158,6 +176,17 @@ python -m venv .venv && .venv/bin/pip install -r requirements.txt
 .venv/bin/python scripts/build_all.py --perils fl,hu   # fetch + build everything
 .venv/bin/python -m pytest                             # 114 tests
 ```
+
+The repository carries the FEMA source documents (~101 MB), so a full clone is
+correspondingly large. If you only want the code:
+
+```bash
+git clone --depth 1 --single-branch https://github.com/rkvaughn/hazus-curves.git
+```
+
+The Parquet tables behind the web tool live in a separate repository,
+[hazus-curves-data](https://github.com/rkvaughn/hazus-curves-data), so they are not
+pulled by a clone or by `pip install`.
 
 `build_all.py` runs the whole pipeline; each stage is also runnable on its own
 (`fetch.py`, `build_flood.py`, `build_hurricane.py`, `verify_hurricane_defect.py`,

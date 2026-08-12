@@ -79,6 +79,26 @@
     "sha256": "0fe93bbdc5d4ae3a3eace7f8147436ad63f381175688671aebd769674d1bc353",
     "url": "https://os-climate-physical-risk.s3.amazonaws.com/vulnerability/HazusWindDamFunctions_Hazus61.xlsx"
   },
+  "Hazus_6.1_Hurricane_Model_Technical_Manual.pdf": {
+    "bytes": 37193770,
+    "hazus_version": "6.1",
+    "kind": "doc",
+    "note": "Hurricane Model Technical Manual 6.1 - matches the wind curve vintage.",
+    "peril": "doc",
+    "retrieved_at": "2026-08-12T17:18:44+00:00",
+    "sha256": "bbad79f660cbfb40cfadfcc07fd9e3c9d81c8c356d30e3e76bc665fd87bfeed5",
+    "url": "https://web.archive.org/web/2025id_/https://www.fema.gov/sites/default/files/documents/Hazus_6.1_Hurricane_Model_Technical_Manual.pdf"
+  },
+  "Hazus_6.1_Tsunami_Model_Technical_Manual.pdf": {
+    "bytes": 8647444,
+    "hazus_version": "6.1",
+    "kind": "doc",
+    "note": "Tsunami Model Technical Manual 6.1 - for v2.",
+    "peril": "doc",
+    "retrieved_at": "2026-08-12T17:18:50+00:00",
+    "sha256": "f8ed707533b78dbc14e2441dca40abe35629fee36eade6366a1c1aac86d026d6",
+    "url": "https://web.archive.org/web/2025id_/https://www.fema.gov/sites/default/files/documents/Hazus_6.1_Tsunami_Model_Technical_Manual.pdf"
+  },
   "Inventory_DDF_LUT_Hazus4p0.csv": {
     "bytes": 9849,
     "hazus_version": "4.0",
@@ -119,6 +139,36 @@
     "sha256": "ee156040d4c973ba484888c5da2d332e44c2c37908beb0870e24e090497332dc",
     "url": "https://web.archive.org/web/2025id_/https://www.fema.gov/sites/default/files/documents/fema_hazus-7-1-release-notes.pdf"
   },
+  "fema_hazus-earthquake-model-technical-manual-6-1.pdf": {
+    "bytes": 13742737,
+    "hazus_version": "6.1",
+    "kind": "doc",
+    "note": "Earthquake Model Technical Manual 6.1 - fragility parameters, for v2.",
+    "peril": "doc",
+    "retrieved_at": "2026-08-12T17:18:47+00:00",
+    "sha256": "59b7e55aac842e0c1b8185ef76f58172496e50f52b615af613c359a10f095754",
+    "url": "https://web.archive.org/web/2025id_/https://www.fema.gov/sites/default/files/documents/fema_hazus-earthquake-model-technical-manual-6-1.pdf"
+  },
+  "fema_hazus-flood-model-technical-manual-6-1.pdf": {
+    "bytes": 2665497,
+    "hazus_version": "6.1",
+    "kind": "doc",
+    "note": "Flood Model Technical Manual 6.1 - matches the flood curve vintage.",
+    "peril": "doc",
+    "retrieved_at": "2026-08-12T17:18:37+00:00",
+    "sha256": "99a2add6ae92320f5738b0bc7fc35937eba632953aa9e7a5e756d23ae7a187ed",
+    "url": "https://web.archive.org/web/2025id_/https://www.fema.gov/sites/default/files/documents/fema_hazus-flood-model-technical-manual-6-1.pdf"
+  },
+  "fema_hazus-inventory-technical-manual-6.1.pdf": {
+    "bytes": 4160918,
+    "hazus_version": "6.1",
+    "kind": "doc",
+    "note": "Inventory Technical Manual 6.1.",
+    "peril": "doc",
+    "retrieved_at": "2026-08-12T17:18:45+00:00",
+    "sha256": "72d920f2906b7ed61c433bd211afbc0a3d0eb44f51e1cf7feb374adef19e41a4",
+    "url": "https://web.archive.org/web/2025id_/https://www.fema.gov/sites/default/files/documents/fema_hazus-inventory-technical-manual-6.1.pdf"
+  },
   "fema_hazus_7_release_notes.pdf": {
     "bytes": 1686388,
     "hazus_version": "7.0",
@@ -148,6 +198,16 @@
     "retrieved_at": "2026-07-26T18:17:27+00:00",
     "sha256": "7a1e3189db4b38c79f7bd77a7b77de99846d518e71ae403eb5aafcccac8a444e",
     "url": "https://web.archive.org/web/2025id_/https://www.fema.gov/sites/default/files/documents/fema_rsl_hazus-7-hutm_06272025_0.pdf"
+  },
+  "fema_rsl_hazus-7-invtm_06272025_1.pdf": {
+    "bytes": 3106479,
+    "hazus_version": "7.0",
+    "kind": "doc",
+    "note": "Inventory Technical Manual 7.0 - occupancy and building type code lists.",
+    "peril": "doc",
+    "retrieved_at": "2026-08-12T17:18:36+00:00",
+    "sha256": "e703958b542efa81f0ff5d7ddff937a4330a764a23ac8b90b23a5905f7fd1c19",
+    "url": "https://web.archive.org/web/2025id_/https://www.fema.gov/sites/default/files/documents/fema_rsl_hazus-7-invtm_06272025_1.pdf"
   },
   "flBldgContDmgFn.csv": {
     "bytes": 86626,
